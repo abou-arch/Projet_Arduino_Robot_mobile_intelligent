@@ -1,0 +1,5 @@
+// build.gradle (Module: app)
+dependencies {
+    implementation 'com.google.code.gson:gson:2.8.8'  // For JSON, but we use JSONObject
+    implementation 'org.nanohttpd:nanohttpd:2.3.1'  // For HTTP server
+}
