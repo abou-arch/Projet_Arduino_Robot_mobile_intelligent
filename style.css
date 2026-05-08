@@ -1,0 +1,231 @@
+/* =========================================================================
+ *  FEUILLE DE STYLE — Page de contrôle du Robot Mobile Intelligent
+ *  Conception mobile-first, fond sombre type tableau de bord.
+ *  Auteur : Abou Camara
+ * ========================================================================= */
+
+
+/* -------------------------------------------------------------------------
+ *  REINITIALISATION
+ *  On annule les marges par défaut du navigateur et on inclut le padding
+ *  dans la largeur des éléments (box-sizing: border-box).
+ * ------------------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+/* -------------------------------------------------------------------------
+ *  CORPS DE LA PAGE
+ *  Dégradé sombre, contenu centré horizontalement, plein écran en hauteur.
+ * ------------------------------------------------------------------------- */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+               "Helvetica Neue", Arial, sans-serif;
+  background: linear-gradient(160deg, #0f172a 0%, #1e293b 100%);
+  color: #f1f5f9;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+
+/* -------------------------------------------------------------------------
+ *  EN-TETE (titre + voyant de statut)
+ * ------------------------------------------------------------------------- */
+header {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+h1 {
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  color: #38bdf8;          /* bleu clair pour le titre */
+  margin-bottom: 8px;
+}
+
+/* Indicateur "En ligne / Hors ligne" sous le titre */
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+
+.status .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ef4444;     /* rouge par défaut = hors ligne */
+  box-shadow: 0 0 8px #ef4444;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.status.online .dot {
+  background: #22c55e;     /* vert quand l'ESP32 répond */
+  box-shadow: 0 0 8px #22c55e;
+}
+
+
+/* -------------------------------------------------------------------------
+ *  CARTE PRINCIPALE
+ *  Conteneur arrondi, légèrement transparent, avec bordure bleutée.
+ * ------------------------------------------------------------------------- */
+.card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 16px;
+  padding: 24px;
+  width: 100%;
+  max-width: 420px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+
+/* -------------------------------------------------------------------------
+ *  PAVE DIRECTIONNEL (pad en croix 3 x 3)
+ *  Les boutons sont placés grâce à grid-column / grid-row pour former
+ *  une croix : haut, gauche, centre, droite, bas.
+ * ------------------------------------------------------------------------- */
+.pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 10px;
+  aspect-ratio: 1 / 1;
+  margin: 10px auto 20px;
+}
+
+
+/* -------------------------------------------------------------------------
+ *  BOUTONS DE COMMANDE
+ *  Aspect "bouton physique" avec ombre du bas qui simule l'épaisseur.
+ *  L'ombre disparait au clic pour donner l'effet d'enfoncement.
+ * ------------------------------------------------------------------------- */
+.btn {
+  border: none;
+  border-radius: 14px;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #f8fafc;
+  background: linear-gradient(180deg, #1e40af 0%, #1e3a8a 100%);
+  cursor: pointer;
+  transition: transform 0.1s ease,
+              filter 0.2s ease,
+              box-shadow 0.2s ease;
+  box-shadow: 0 4px 0 #0c1c5c;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;   /* pas de flash bleu sur mobile */
+}
+
+.btn:hover  { filter: brightness(1.15); }
+
+.btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #0c1c5c;
+}
+
+/* Bouton STOP en rouge pour bien le différencier */
+.btn.stop {
+  background: linear-gradient(180deg, #dc2626 0%, #991b1b 100%);
+  box-shadow: 0 4px 0 #5b0e0e;
+}
+.btn.stop:active {
+  box-shadow: 0 2px 0 #5b0e0e;
+}
+
+/* Position de chaque bouton dans la grille */
+.btn.fwd   { grid-column: 2; grid-row: 1; }  /* haut */
+.btn.left  { grid-column: 1; grid-row: 2; }  /* gauche */
+.btn.stop  { grid-column: 2; grid-row: 2; }  /* centre */
+.btn.right { grid-column: 3; grid-row: 2; }  /* droite */
+.btn.bwd   { grid-column: 2; grid-row: 3; }  /* bas */
+
+
+/* -------------------------------------------------------------------------
+ *  CHAMPS DE REGLAGE (curseurs)
+ *  Une étiquette à gauche, la valeur à droite, le curseur en dessous.
+ * ------------------------------------------------------------------------- */
+.field {
+  margin-top: 18px;
+}
+
+.field label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  margin-bottom: 8px;
+  color: #cbd5e1;
+}
+
+.field label span {
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: #38bdf8;
+}
+
+
+/* -------------------------------------------------------------------------
+ *  BLOC DE CONFIGURATION (adresse IP)
+ * ------------------------------------------------------------------------- */
+.settings {
+  margin-top: 20px;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.settings input {
+  background: #0f172a;
+  border: 1px solid #334155;
+  color: #e2e8f0;
+  border-radius: 6px;
+  padding: 6px 10px;
+  width: 160px;
+  margin-left: 6px;
+  font-size: 0.85rem;
+}
+
+
+/* -------------------------------------------------------------------------
+ *  CONSOLE DES MESSAGES
+ *  Zone scrollable type "terminal" affichant les commandes envoyées
+ *  et les réponses reçues du robot.
+ * ------------------------------------------------------------------------- */
+.log {
+  margin-top: 22px;
+  background: #020617;
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 10px;
+  padding: 12px;
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  height: 120px;
+  overflow-y: auto;
+}
+
+.log .line { margin-bottom: 4px; }
+.log .ok   { color: #4ade80; }   /* vert pour les réponses OK */
+.log .err  { color: #f87171; }   /* rouge pour les erreurs */
+
+
+/* -------------------------------------------------------------------------
+ *  PIED DE PAGE
+ * ------------------------------------------------------------------------- */
+footer {
+  margin-top: 30px;
+  font-size: 0.8rem;
+  color: #64748b;
+}
