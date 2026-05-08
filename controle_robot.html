@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contrôle du Robot</title>
+
+  <!-- Feuille de style externe -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- En-tête : titre + indicateur d'état de connexion -->
+  <header>
+    <h1>Contrôle du Robot</h1>
+    <div id="statusIndicator" class="status">
+      <span class="dot"></span>
+      <span id="statusText">En attente…</span>
+    </div>
+  </header>
+
+  <!-- Carte principale -->
+  <main class="card">
+
+    <!-- Pavé directionnel : 5 boutons en croix -->
+    <div class="pad">
+      <button class="btn fwd"   data-action="FWD"   title="Avancer">▲</button>
+      <button class="btn left"  data-action="LEFT"  title="Gauche">◀</button>
+      <button class="btn stop"  data-action="STOP"  title="Arrêt">■</button>
+      <button class="btn right" data-action="RIGHT" title="Droite">▶</button>
+      <button class="btn bwd"   data-action="BWD"   title="Reculer">▼</button>
+    </div>
+
+    <!-- Curseur de vitesse (envoyé au PWM de l'ESP32) -->
+    <div class="field">
+      <label>
+        Vitesse
+        <span><span id="speedValue">200</span> / 255</span>
+      </label>
+      <input type="range" id="speedSlider" min="80" max="255" value="200">
+    </div>
+
+    <!-- Curseur de durée (en millisecondes) -->
+    <div class="field">
+      <label>
+        Durée
+        <span><span id="durationValue">1000</span> ms</span>
+      </label>
+      <input type="range" id="durationSlider" min="100" max="2000" step="100" value="1000">
+    </div>
+
+    <!-- Configuration de l'IP de l'ESP32 -->
+    <div class="settings">
+      Adresse de l'ESP32 :
+      <input type="text" id="esp32Ip" value="192.168.1.100">
+    </div>
+
+    <!-- Console des messages échangés avec le robot -->
+    <div class="log" id="log">
+      <div class="line">Console prête. Appuyez sur un bouton…</div>
+    </div>
+
+  </main>
+
+  <footer>Projet Robot Mobile Intelligent — Phase 2</footer>
+
+  <!-- Script externe -->
+  <script src="script.js"></script>
+</body>
+</html>
