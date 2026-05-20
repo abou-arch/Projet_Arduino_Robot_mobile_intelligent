@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 780" font-family="Arial, Helvetica, sans-serif">
+
+  <!-- Fond -->
+  <rect width="1200" height="780" fill="#FAFBFD"/>
+
+  <!-- Titre -->
+  <text x="600" y="36" text-anchor="middle" font-size="22" font-weight="bold" fill="#1F3A5F">
+    Architecture du système – Robot Mobile Intelligent
+  </text>
+  <text x="600" y="58" text-anchor="middle" font-size="13" fill="#475569">
+    3 phases de pilotage convergent vers le même robot (ESP8266 + L298N + 2 moteurs)
+  </text>
+
+  <!-- Définition de la flèche -->
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L9,3 L0,6 Z" fill="#1F4E79"/>
+    </marker>
+    <marker id="arr2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <path d="M0,0 L9,3 L0,6 Z" fill="#0EA5E9"/>
+    </marker>
+  </defs>
+
+  <!-- ============= PHASE 1 (rangée du haut) ============= -->
+  <g>
+    <text x="60" y="120" font-size="14" font-weight="bold" fill="#1F4E79">PHASE 1 — Série</text>
+
+    <!-- PC / moniteur série -->
+    <rect x="60"  y="140" width="180" height="80" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+    <text x="150" y="170" text-anchor="middle" font-size="14" font-weight="bold" fill="#0C4A6E">Moniteur série</text>
+    <text x="150" y="190" text-anchor="middle" font-size="11" fill="#475569">115 200 bauds</text>
+    <text x="150" y="206" text-anchor="middle" font-size="11" fill="#475569">CMD|ACTION|DUREE</text>
+  </g>
+
+  <!-- ============= PHASE 2 (rangée du milieu) ============= -->
+  <g>
+    <text x="60" y="290" font-size="14" font-weight="bold" fill="#1F4E79">PHASE 2 — Page web</text>
+
+    <!-- Navigateur -->
+    <rect x="60"  y="310" width="180" height="80" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+    <text x="150" y="338" text-anchor="middle" font-size="14" font-weight="bold" fill="#0C4A6E">Navigateur</text>
+    <text x="150" y="356" text-anchor="middle" font-size="11" fill="#475569">controle_robot.html</text>
+    <text x="150" y="372" text-anchor="middle" font-size="11" fill="#475569">PC ou téléphone Wi-Fi</text>
+
+    <!-- Bouton flèches -->
+    <rect x="60"  y="400" width="180" height="46" rx="8" fill="#FFFFFF" stroke="#94A3B8" stroke-width="1"/>
+    <text x="150" y="421" text-anchor="middle" font-size="12" fill="#334155">▲ ◀ ■ ▶ ▼</text>
+    <text x="150" y="438" text-anchor="middle" font-size="10" fill="#64748B">+ vitesse + durée</text>
+  </g>
+
+  <!-- ============= PHASE 3 (rangée du bas) ============= -->
+  <g>
+    <text x="60" y="540" font-size="14" font-weight="bold" fill="#1F4E79">PHASE 3 — Voix</text>
+
+    <!-- Voix -->
+    <rect x="60"  y="560" width="180" height="80" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+    <text x="150" y="590" text-anchor="middle" font-size="20">🎤</text>
+    <text x="150" y="615" text-anchor="middle" font-size="13" fill="#0C4A6E">Voix utilisateur</text>
+    <text x="150" y="632" text-anchor="middle" font-size="11" fill="#475569">« avance 2 secondes »</text>
+
+    <!-- Speech-to-text (navigateur ou Python) -->
+    <rect x="280" y="560" width="200" height="80" rx="10" fill="#FFF7ED" stroke="#F59E0B" stroke-width="2"/>
+    <text x="380" y="588" text-anchor="middle" font-size="13" font-weight="bold" fill="#9A3412">Speech-to-Text</text>
+    <text x="380" y="606" text-anchor="middle" font-size="11" fill="#475569">Web Speech API</text>
+    <text x="380" y="622" text-anchor="middle" font-size="11" fill="#475569">ou speech_recognition</text>
+
+    <!-- Backend FastAPI + Ollama -->
+    <rect x="520" y="560" width="220" height="80" rx="10" fill="#FFF7ED" stroke="#F59E0B" stroke-width="2"/>
+    <text x="630" y="588" text-anchor="middle" font-size="13" font-weight="bold" fill="#9A3412">FastAPI + Ollama</text>
+    <text x="630" y="606" text-anchor="middle" font-size="11" fill="#475569">main.py — analyse</text>
+    <text x="630" y="622" text-anchor="middle" font-size="11" fill="#475569">chatbot Luna (phi3:mini)</text>
+  </g>
+
+  <!-- ============= ESP8266 (cœur du système, au centre) ============= -->
+  <g transform="translate(530,170)">
+    <rect width="260" height="280" rx="14" fill="#1F4E79" stroke="#0F2A4A" stroke-width="2"/>
+    <text x="130" y="36" text-anchor="middle" fill="white" font-size="18" font-weight="bold">ESP8266</text>
+    <text x="130" y="56" text-anchor="middle" fill="#CBD5E1" font-size="12">cœur du robot</text>
+
+    <!-- Sous-blocs internes -->
+    <rect x="20"  y="80"  width="100" height="40" rx="6" fill="#0EA5E9"/>
+    <text x="70"  y="105" text-anchor="middle" fill="white" font-size="11" font-weight="bold">CommandParser</text>
+
+    <rect x="140" y="80"  width="100" height="40" rx="6" fill="#0EA5E9"/>
+    <text x="190" y="105" text-anchor="middle" fill="white" font-size="11" font-weight="bold">SafetyManager</text>
+
+    <rect x="20"  y="130" width="100" height="40" rx="6" fill="#0EA5E9"/>
+    <text x="70"  y="155" text-anchor="middle" fill="white" font-size="11" font-weight="bold">RobotController</text>
+
+    <rect x="140" y="130" width="100" height="40" rx="6" fill="#0EA5E9"/>
+    <text x="190" y="155" text-anchor="middle" fill="white" font-size="11" font-weight="bold">MotorController</text>
+
+    <rect x="80"  y="190" width="100" height="40" rx="6" fill="#0EA5E9"/>
+    <text x="130" y="215" text-anchor="middle" fill="white" font-size="11" font-weight="bold">WebInterface</text>
+
+    <text x="130" y="255" text-anchor="middle" fill="#CBD5E1" font-size="11">Wi-Fi + Serveur HTTP</text>
+  </g>
+
+  <!-- ============= Driver + Moteurs (droite) ============= -->
+  <g transform="translate(880,250)">
+    <rect width="190" height="100" rx="12" fill="#0EA5E9" stroke="#075985" stroke-width="2"/>
+    <text x="95" y="40" text-anchor="middle" fill="white" font-size="14" font-weight="bold">L298N</text>
+    <text x="95" y="60" text-anchor="middle" fill="#E0F2FE" font-size="11">driver moteur</text>
+    <text x="95" y="80" text-anchor="middle" fill="#E0F2FE" font-size="11">PWM sens + vitesse</text>
+  </g>
+
+  <g transform="translate(880,420)">
+    <ellipse cx="50" cy="35" rx="50" ry="32" fill="#334155" stroke="#0F172A" stroke-width="2"/>
+    <text x="50" y="40" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Moteur G</text>
+  </g>
+
+  <g transform="translate(990,420)">
+    <ellipse cx="50" cy="35" rx="50" ry="32" fill="#334155" stroke="#0F172A" stroke-width="2"/>
+    <text x="50" y="40" text-anchor="middle" fill="white" font-size="13" font-weight="bold">Moteur D</text>
+  </g>
+
+  <!-- ============= Flèches vers ESP8266 ============= -->
+  <g stroke="#1F4E79" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <!-- Phase 1 : moniteur série -->
+    <path d="M240,180 C 380,180 380,200 530,210"/>
+    <!-- Phase 2 : navigateur -->
+    <path d="M240,350 C 380,350 380,300 530,300"/>
+    <!-- Phase 3 : backend final -->
+    <path d="M740,580 C 820,580 660,470 660,450"/>
+  </g>
+
+  <!-- Phase 3 flux interne -->
+  <g stroke="#F59E0B" stroke-width="2" fill="none" marker-end="url(#arr2)">
+    <path d="M240,600 L 280,600"/>
+    <path d="M480,600 L 520,600"/>
+  </g>
+
+  <!-- ESP8266 -> L298N -->
+  <g stroke="#1F4E79" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <path d="M790,300 L 880,300"/>
+  </g>
+
+  <!-- L298N -> moteurs -->
+  <g stroke="#0F172A" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <path d="M950,350 L 930,420"/>
+    <path d="M990,350 L 1010,420"/>
+  </g>
+
+  <!-- Etiquettes des flèches -->
+  <g font-size="11" fill="#475569">
+    <text x="395" y="172" text-anchor="middle">USB série</text>
+    <text x="395" y="320" text-anchor="middle">HTTP / Wi-Fi</text>
+    <text x="800" y="495" text-anchor="middle">HTTP /cmd</text>
+    <text x="835" y="290" text-anchor="middle">IN + PWM</text>
+  </g>
+
+  <!-- Pied -->
+  <text x="600" y="745" text-anchor="middle" font-size="11" fill="#64748B">
+    Trois interfaces d'entrée → un seul format commun « CMD|ACTION|DUREE|VITESSE » → un seul robot.
+  </text>
+
+</svg>

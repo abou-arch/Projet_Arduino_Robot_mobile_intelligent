@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 720" font-family="Arial, Helvetica, sans-serif">
+
+  <!-- Fond -->
+  <rect width="1100" height="720" fill="#FAFBFD"/>
+
+  <!-- Titre -->
+  <text x="550" y="36" text-anchor="middle" font-size="22" font-weight="bold" fill="#1F3A5F">
+    Schéma de câblage – Robot Mobile Intelligent
+  </text>
+  <text x="550" y="58" text-anchor="middle" font-size="13" fill="#475569">
+    ESP8266 NodeMCU + driver moteur L298N + 2 moteurs CC
+  </text>
+
+  <!-- Styles communs -->
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#1F4E79"/>
+    </marker>
+  </defs>
+
+  <!-- ===================== ESP8266 NodeMCU ===================== -->
+  <g transform="translate(70,140)">
+    <rect width="220" height="380" rx="14" fill="#1F4E79" stroke="#0F2A4A" stroke-width="2"/>
+    <text x="110" y="32" text-anchor="middle" fill="white" font-size="16" font-weight="bold">ESP8266</text>
+    <text x="110" y="50" text-anchor="middle" fill="#CBD5E1" font-size="11">NodeMCU (ESP-12)</text>
+
+    <!-- Broches (côté droit) -->
+    <g font-size="13" fill="white">
+      <rect x="190" y="80"  width="40" height="22" fill="#0F2A4A"/>
+      <text x="210" y="96"  text-anchor="middle">D1</text>
+
+      <rect x="190" y="120" width="40" height="22" fill="#0F2A4A"/>
+      <text x="210" y="136" text-anchor="middle">D2</text>
+
+      <rect x="190" y="160" width="40" height="22" fill="#0F2A4A"/>
+      <text x="210" y="176" text-anchor="middle">D3</text>
+
+      <rect x="190" y="200" width="40" height="22" fill="#0F2A4A"/>
+      <text x="210" y="216" text-anchor="middle">D5</text>
+
+      <rect x="190" y="240" width="40" height="22" fill="#0F2A4A"/>
+      <text x="210" y="256" text-anchor="middle">D6</text>
+
+      <rect x="190" y="280" width="40" height="22" fill="#0F2A4A"/>
+      <text x="210" y="296" text-anchor="middle">D7</text>
+
+      <rect x="190" y="320" width="40" height="22" fill="#0F2A4A"/>
+      <text x="210" y="336" text-anchor="middle">GND</text>
+    </g>
+
+    <!-- Etiquettes internes -->
+    <g font-size="11" fill="#CBD5E1" text-anchor="end">
+      <text x="180" y="96">IN1  (sens G)</text>
+      <text x="180" y="136">IN2  (sens G)</text>
+      <text x="180" y="176">ENA  (PWM G)</text>
+      <text x="180" y="216">IN3  (sens D)</text>
+      <text x="180" y="256">IN4  (sens D)</text>
+      <text x="180" y="296">ENB  (PWM D)</text>
+      <text x="180" y="336">masse commune</text>
+    </g>
+
+    <!-- LED -->
+    <circle cx="40" cy="350" r="6" fill="#FBBF24"/>
+    <text x="55" y="354" fill="#CBD5E1" font-size="11">LED (D4 / GPIO2)</text>
+  </g>
+
+  <!-- ===================== L298N ===================== -->
+  <g transform="translate(450,140)">
+    <rect width="240" height="380" rx="14" fill="#0EA5E9" stroke="#075985" stroke-width="2"/>
+    <text x="120" y="32" text-anchor="middle" fill="white" font-size="16" font-weight="bold">L298N</text>
+    <text x="120" y="50" text-anchor="middle" fill="#E0F2FE" font-size="11">Driver moteur double H</text>
+
+    <!-- Entrées côté gauche -->
+    <g font-size="13" fill="white">
+      <rect x="10" y="80"  width="40" height="22" fill="#075985"/>
+      <text x="30" y="96"  text-anchor="middle">IN1</text>
+
+      <rect x="10" y="120" width="40" height="22" fill="#075985"/>
+      <text x="30" y="136" text-anchor="middle">IN2</text>
+
+      <rect x="10" y="160" width="40" height="22" fill="#075985"/>
+      <text x="30" y="176" text-anchor="middle">ENA</text>
+
+      <rect x="10" y="200" width="40" height="22" fill="#075985"/>
+      <text x="30" y="216" text-anchor="middle">IN3</text>
+
+      <rect x="10" y="240" width="40" height="22" fill="#075985"/>
+      <text x="30" y="256" text-anchor="middle">IN4</text>
+
+      <rect x="10" y="280" width="40" height="22" fill="#075985"/>
+      <text x="30" y="296" text-anchor="middle">ENB</text>
+
+      <rect x="10" y="320" width="40" height="22" fill="#075985"/>
+      <text x="30" y="336" text-anchor="middle">GND</text>
+    </g>
+
+    <!-- Sorties côté droit (vers moteurs) -->
+    <g font-size="13" fill="white">
+      <rect x="190" y="110" width="40" height="22" fill="#075985"/>
+      <text x="210" y="126" text-anchor="middle">OUT1</text>
+      <rect x="190" y="138" width="40" height="22" fill="#075985"/>
+      <text x="210" y="154" text-anchor="middle">OUT2</text>
+
+      <rect x="190" y="218" width="40" height="22" fill="#075985"/>
+      <text x="210" y="234" text-anchor="middle">OUT3</text>
+      <rect x="190" y="246" width="40" height="22" fill="#075985"/>
+      <text x="210" y="262" text-anchor="middle">OUT4</text>
+    </g>
+
+    <!-- Alim moteur (en bas) -->
+    <g font-size="12" fill="white">
+      <rect x="60" y="345" width="50" height="22" fill="#075985"/>
+      <text x="85" y="361" text-anchor="middle">+VS</text>
+      <rect x="130" y="345" width="50" height="22" fill="#075985"/>
+      <text x="155" y="361" text-anchor="middle">GND</text>
+    </g>
+  </g>
+
+  <!-- ===================== Moteurs ===================== -->
+  <g transform="translate(820,180)">
+    <ellipse cx="60" cy="40" rx="60" ry="40" fill="#334155" stroke="#0F172A" stroke-width="2"/>
+    <text x="60" y="38" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Moteur</text>
+    <text x="60" y="55" text-anchor="middle" fill="#CBD5E1" font-size="12">GAUCHE</text>
+  </g>
+
+  <g transform="translate(820,320)">
+    <ellipse cx="60" cy="40" rx="60" ry="40" fill="#334155" stroke="#0F172A" stroke-width="2"/>
+    <text x="60" y="38" text-anchor="middle" fill="white" font-size="14" font-weight="bold">Moteur</text>
+    <text x="60" y="55" text-anchor="middle" fill="#CBD5E1" font-size="12">DROIT</text>
+  </g>
+
+  <!-- ===================== Batterie ===================== -->
+  <g transform="translate(450,580)">
+    <rect width="240" height="80" rx="10" fill="#16A34A" stroke="#15803D" stroke-width="2"/>
+    <text x="120" y="32" text-anchor="middle" fill="white" font-size="16" font-weight="bold">Batterie</text>
+    <text x="120" y="52" text-anchor="middle" fill="#DCFCE7" font-size="12">7 – 9 V (piles ou LiPo)</text>
+    <text x="120" y="70" text-anchor="middle" fill="#DCFCE7" font-size="11">+V                                  GND</text>
+  </g>
+
+  <!-- ===================== Câbles ===================== -->
+  <!-- ESP8266 D1 -> L298N IN1 -->
+  <g stroke-width="2" fill="none">
+    <path d="M290,91  C 370,91  370,91 450,91" stroke="#EF4444"/>
+    <path d="M290,131 C 370,131 370,131 450,131" stroke="#EF4444"/>
+    <path d="M290,171 C 370,171 370,171 450,171" stroke="#F59E0B"/>
+    <path d="M290,211 C 370,211 370,211 450,211" stroke="#3B82F6"/>
+    <path d="M290,251 C 370,251 370,251 450,251" stroke="#3B82F6"/>
+    <path d="M290,291 C 370,291 370,291 450,291" stroke="#F59E0B"/>
+    <path d="M290,331 C 370,331 370,331 450,331" stroke="#64748B"/>
+  </g>
+
+  <!-- Etiquettes broches GPIO ESP8266 -->
+  <g font-size="11" fill="#1F3A5F">
+    <text x="370" y="85"  text-anchor="middle">GPIO 5</text>
+    <text x="370" y="125" text-anchor="middle">GPIO 4</text>
+    <text x="370" y="165" text-anchor="middle">GPIO 0  (PWM)</text>
+    <text x="370" y="205" text-anchor="middle">GPIO 14</text>
+    <text x="370" y="245" text-anchor="middle">GPIO 12</text>
+    <text x="370" y="285" text-anchor="middle">GPIO 13 (PWM)</text>
+    <text x="370" y="325" text-anchor="middle">GND</text>
+  </g>
+
+  <!-- L298N OUT1/OUT2 -> Moteur gauche -->
+  <g stroke="#0F172A" stroke-width="2" fill="none">
+    <path d="M690,121 L 760,121 L 760,200 L 820,200"/>
+    <path d="M690,149 L 750,149 L 750,230 L 820,230"/>
+  </g>
+
+  <!-- L298N OUT3/OUT4 -> Moteur droit -->
+  <g stroke="#0F172A" stroke-width="2" fill="none">
+    <path d="M690,229 L 760,229 L 760,340 L 820,340"/>
+    <path d="M690,257 L 750,257 L 750,370 L 820,370"/>
+  </g>
+
+  <!-- L298N -> Batterie -->
+  <g stroke-width="2" fill="none">
+    <path d="M510,425 L 510,580" stroke="#DC2626"/>
+    <path d="M605,425 L 605,580" stroke="#64748B"/>
+  </g>
+
+  <!-- ESP8266 GND -> batterie GND (masse commune) -->
+  <g stroke="#64748B" stroke-width="2" fill="none" stroke-dasharray="6,4">
+    <path d="M180,520 L 180,620 L 450,620"/>
+  </g>
+  <text x="200" y="635" font-size="11" fill="#475569">Masse commune (GND)</text>
+
+  <!-- Légende -->
+  <g transform="translate(70,580)" font-size="12" fill="#334155">
+    <text x="0" y="0" font-weight="bold" fill="#1F3A5F">Légende</text>
+    <line x1="0" y1="15" x2="30" y2="15" stroke="#EF4444" stroke-width="3"/>
+    <text x="40" y="19">Signal de sens (IN)</text>
+    <line x1="0" y1="35" x2="30" y2="35" stroke="#F59E0B" stroke-width="3"/>
+    <text x="40" y="39">Signal PWM (EN)</text>
+    <line x1="0" y1="55" x2="30" y2="55" stroke="#DC2626" stroke-width="3"/>
+    <text x="40" y="59">Alimentation +</text>
+    <line x1="0" y1="75" x2="30" y2="75" stroke="#64748B" stroke-width="3"/>
+    <text x="40" y="79">Masse / GND</text>
+  </g>
+
+  <!-- Note importante -->
+  <g transform="translate(820,580)" font-size="11" fill="#475569">
+    <rect x="-10" y="-15" width="270" height="80" fill="#FEF3C7" stroke="#F59E0B" rx="6"/>
+    <text x="0" y="2" font-weight="bold" fill="#92400E">Important</text>
+    <text x="0" y="20">• Retirer les cavaliers ENA/ENB pour</text>
+    <text x="0" y="35">  utiliser le PWM.</text>
+    <text x="0" y="50">• Ne JAMAIS alimenter l'ESP8266 par le</text>
+    <text x="0" y="62">  +5V du L298N si l'USB est branché.</text>
+  </g>
+
+</svg>
