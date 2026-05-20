@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Commande vocale du Robot</title>
+
+  <!-- Feuille de style externe -->
+  <link rel="stylesheet" href="style_vocale.css">
+</head>
+
+<body>
+
+  <!-- En-tête : titre + voyant d'état -->
+  <header>
+    <h1>Commande vocale</h1>
+    <div id="statusIndicator" class="status">
+      <span class="dot"></span>
+      <span id="statusText">Prêt à écouter</span>
+    </div>
+  </header>
+
+  <!-- Carte principale -->
+  <main class="card">
+
+    <!-- Bouton micro -->
+    <div class="mic-zone">
+      <button id="micBtn" class="mic" title="Cliquer pour parler">
+        <span class="mic-icon">🎤</span>
+        <span class="mic-pulse"></span>
+      </button>
+      <p id="micHint" class="hint">Cliquez pour parler</p>
+    </div>
+
+    <!-- Texte reconnu en direct -->
+    <div class="transcript">
+      <label>Ce que j'entends</label>
+      <div id="transcriptBox" class="transcript-box">…</div>
+    </div>
+
+    <!-- Action interprétée -->
+    <div class="action">
+      <label>Commande interprétée</label>
+      <div id="actionBox" class="action-box">—</div>
+    </div>
+
+    <!-- Configuration -->
+    <div class="settings">
+      <label>
+        Adresse de l'ESP32
+        <input type="text" id="esp32Ip" value="192.168.1.100">
+      </label>
+      <label class="check">
+        <input type="checkbox" id="speakBack" checked>
+        Lire les réponses à voix haute
+      </label>
+    </div>
+
+    <!-- Historique -->
+    <div class="history">
+      <label>Historique</label>
+      <div id="historyBox" class="history-box">
+        <div class="line">En attente d'une première commande…</div>
+      </div>
+    </div>
+
+    <!-- Exemples cliquables -->
+    <div class="examples">
+      <p class="examples-title">Essayez :</p>
+      <button class="chip" data-example="avance pendant 2 secondes">« avance pendant 2 secondes »</button>
+      <button class="chip" data-example="tourne à gauche">« tourne à gauche »</button>
+      <button class="chip" data-example="recule lentement">« recule lentement »</button>
+      <button class="chip" data-example="stop">« stop »</button>
+    </div>
+
+    <!-- Lien retour vers la page de pilotage manuel -->
+    <a href="controle_robot.html" class="nav-link">
+      <span class="nav-icon">🎮</span>
+      <span>Pilotage manuel</span>
+    </a>
+
+  </main>
+
+  <footer>Projet Robot Mobile Intelligent — Phase 3</footer>
+
+  <!-- Script externe -->
+  <script src="script_vocale.js"></script>
+</body>
+</html>
