@@ -1,8 +1,7 @@
 /* =========================================================================
  *  PROJET : ROBOT MOBILE INTELLIGENT
- *  PHASES 1 + 2 : Déplacements simples + Page web embarquée
- *  Carte cible : ESP8266 (NodeMCU, Wemos D1 mini, ou module ESP-12)
- *  Driver moteur : L298N, L9110S ou équivalent (IN1..IN4 + ENA/ENB)
+ *  Carte cible : ESP32 (ESP-WROOM-32 / DevKit V1)
+ *  Driver moteur : L298N
  *  Auteur : Abou Camara
  *
  *  Pilotage possible :
@@ -18,16 +17,16 @@
  *         GET /cmd?action=FWD&duration=1000&speed=200
  *         GET /ping
  *
- *  Différences par rapport à l'ESP32 :
- *    - Bibliothèques  : ESP8266WiFi.h + ESP8266WebServer.h
- *    - PWM            : analogWrite() (au lieu de ledcSetup/ledcWrite)
- *    - Broches        : D1..D7 (la correspondance GPIO est dans le code)
- *    - LED interne    : D4 (GPIO 2) avec logique INVERSEE (LOW = allumée)
+ *  Différences par rapport à l'ESP8266 :
+ *    - Bibliothèques  : WiFi.h + WebServer.h
+ *    - PWM            : ledcSetup / ledcAttachPin / ledcWrite
+ *    - Broches        : GPIO purs (26, 27, 25, 32, 33, 14)
+ *    - LED interne    : GPIO 2, logique normale (HIGH = allumée)
  * ========================================================================= */
 
 #include <Arduino.h>
-#include <ESP8266WiFi.h>
-#include <ESP8266WebServer.h>
+#include <WiFi.h>
+#include <WebServer.h>
 
 /* -------------------------------------------------------------------------
  *  PARAMETRES WI-FI - A PERSONNALISER
@@ -36,37 +35,35 @@ const char* WIFI_SSID     = "VOTRE_SSID";
 const char* WIFI_PASSWORD = "VOTRE_PASSWORD";
 
 /* -------------------------------------------------------------------------
- *  CONFIGURATION DES BROCHES (ESP8266 NodeMCU)
- *
- *  Sur l'ESP8266, on peut utiliser soit les noms "D1, D2..." (NodeMCU)
- *  soit les numéros GPIO bruts (5, 4, 0...). Les deux sont équivalents.
- *  On garde ici les macros D1..D7 pour rester proche du marquage du PCB.
+ *  CONFIGURATION DES BROCHES (ESP32 DevKit V1)
+ *  
+ *  Voir le schéma de câblage :
+ *  - GPIO 26/27/25 : moteur gauche (IN1, IN2, ENA/PWM)
+ *  - GPIO 32/33/14 : moteur droit  (IN3, IN4, ENB/PWM)
  * ------------------------------------------------------------------------- */
 
 // Moteur gauche
-const int LEFT_MOTOR_IN1  = D1;   // GPIO 5  - sens
-const int LEFT_MOTOR_IN2  = D2;   // GPIO 4  - sens
-const int LEFT_MOTOR_ENA  = D3;   // GPIO 0  - vitesse (PWM)
+const int LEFT_MOTOR_IN1  = 26;  // sens
+const int LEFT_MOTOR_IN2  = 27;  // sens
+const int LEFT_MOTOR_ENA  = 25;  // vitesse (PWM)
 
 // Moteur droit
-const int RIGHT_MOTOR_IN1 = D5;   // GPIO 14 - sens
-const int RIGHT_MOTOR_IN2 = D6;   // GPIO 12 - sens
-const int RIGHT_MOTOR_ENB = D7;   // GPIO 13 - vitesse (PWM)
+const int RIGHT_MOTOR_IN1 = 32;  // sens
+const int RIGHT_MOTOR_IN2 = 33;  // sens
+const int RIGHT_MOTOR_ENB = 14;  // vitesse (PWM)
 
-// LED d'état (LED bleue de la carte NodeMCU, sur D4 / GPIO 2)
-// ATTENTION : sur la plupart des cartes ESP8266, cette LED a une
-// logique INVERSEE -> LOW = allumée, HIGH = éteinte.
-const int STATUS_LED        = D4;
-const bool LED_ACTIVE_LOW   = true;   // mettre à false pour une LED externe normale
+// LED d'état (LED bleue de la carte DevKit V1, sur GPIO 2)
+// Sur ESP32, cette LED est à logique normale : HIGH = allumée.
+const int STATUS_LED        = 2;
+const bool LED_ACTIVE_LOW   = false;
 
 /* -------------------------------------------------------------------------
- *  PARAMETRES PWM (analogWrite sur ESP8266)
- *
- *  Par défaut, analogWrite() attend des valeurs 0..1023. On le règle ici
- *  sur 0..255 pour rester compatible avec la même logique que l'ESP32.
+ *  PARAMETRES PWM (ESP32 - LEDC)
  * ------------------------------------------------------------------------- */
-const int PWM_FREQ       = 1000;   // 1 kHz
-const int PWM_RANGE_MAX  = 255;    // valeurs 0..255
+const int PWM_FREQ        = 1000;   // 1 kHz
+const int PWM_RESOLUTION  = 8;      // 8 bits -> valeurs 0..255
+const int PWM_CHANNEL_L   = 0;      // canal pour moteur gauche
+const int PWM_CHANNEL_R   = 1;      // canal pour moteur droit
 
 /* -------------------------------------------------------------------------
  *  CONSTANTES DE SECURITE / VALEURS PAR DEFAUT
@@ -91,8 +88,7 @@ struct RobotCommand {
 };
 
 /* -------------------------------------------------------------------------
- *  PETITE FONCTION pour allumer / éteindre la LED en tenant compte du
- *  cas où elle est inversée.
+ *  PETITE FONCTION pour allumer / eteindre la LED
  * ------------------------------------------------------------------------- */
 inline void writeLed(bool on) {
   if (LED_ACTIVE_LOW) digitalWrite(STATUS_LED, on ? LOW  : HIGH);
@@ -101,7 +97,7 @@ inline void writeLed(bool on) {
 
 /* =========================================================================
  *  CLASSE 1 : MotorController
- *  Pilote sens (IN1..IN4) + vitesse (analogWrite sur ENA/ENB).
+ *  Pilote sens (IN1..IN4) + vitesse (LEDC/PWM sur ENA/ENB).
  * ========================================================================= */
 class MotorController {
 public:
@@ -114,9 +110,11 @@ public:
     pinMode(RIGHT_MOTOR_ENB, OUTPUT);
     pinMode(STATUS_LED,      OUTPUT);
 
-    // Réglage du PWM ESP8266 (0..255 à 1 kHz)
-    analogWriteRange(PWM_RANGE_MAX);
-    analogWriteFreq(PWM_FREQ);
+    // Configuration des canaux PWM ESP32
+    ledcSetup(PWM_CHANNEL_L, PWM_FREQ, PWM_RESOLUTION);
+    ledcAttachPin(LEFT_MOTOR_ENA, PWM_CHANNEL_L);
+    ledcSetup(PWM_CHANNEL_R, PWM_FREQ, PWM_RESOLUTION);
+    ledcAttachPin(RIGHT_MOTOR_ENB, PWM_CHANNEL_R);
 
     stop();
   }
@@ -158,16 +156,16 @@ public:
     digitalWrite(LEFT_MOTOR_IN2,  LOW);
     digitalWrite(RIGHT_MOTOR_IN1, LOW);
     digitalWrite(RIGHT_MOTOR_IN2, LOW);
-    analogWrite(LEFT_MOTOR_ENA,  0);
-    analogWrite(RIGHT_MOTOR_ENB, 0);
+    ledcWrite(PWM_CHANNEL_L, 0);
+    ledcWrite(PWM_CHANNEL_R, 0);
     writeLed(false);
   }
 
 private:
   void applySpeed(int speed) {
     int safeSpeed = constrain(speed, 0, MAX_SPEED);
-    analogWrite(LEFT_MOTOR_ENA,  safeSpeed);
-    analogWrite(RIGHT_MOTOR_ENB, safeSpeed);
+    ledcWrite(PWM_CHANNEL_L, safeSpeed);
+    ledcWrite(PWM_CHANNEL_R, safeSpeed);
     writeLed(safeSpeed > 0);
   }
 };
@@ -262,7 +260,7 @@ public:
     m_motorController.setupPins();
     Serial.begin(115200);
     Serial.println();
-    Serial.println("Robot pret (ESP8266 + PWM + Web).");
+    Serial.println("Robot pret (ESP32 + PWM + Web).");
     Serial.println("Format : CMD|ACTION|DUREE_MS  ou  CMD|ACTION|DUREE_MS|VITESSE");
     Serial.print("Vitesse par defaut : ");
     Serial.println(DEFAULT_SPEED);
@@ -355,7 +353,7 @@ private:
 
 /* =========================================================================
  *  RESSOURCES WEB EMBARQUEES
- *  Trois fichiers stockés en PROGMEM (mémoire programme, pas RAM).
+ *  Trois fichiers stockés en mémoire programme (PROGMEM).
  * ========================================================================= */
 
 // ----- HTML -----
@@ -365,17 +363,17 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contrôle du Robot</title>
+<title>Controle du Robot</title>
 <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<header>
-<h1>Contrôle du Robot</h1>
+<<header>
+<h1>Controle du Robot</h1>
 <div id="statusIndicator" class="status">
 <span class="dot"></span><span id="statusText">En attente…</span>
 </div>
 </header>
-<main class="card">
+<<main class="card">
 <div class="pad">
 <button class="btn fwd"   data-action="FWD">▲</button>
 <button class="btn left"  data-action="LEFT">◀</button>
@@ -388,20 +386,19 @@ const char INDEX_HTML[] PROGMEM = R"rawliteral(
 <input type="range" id="speedSlider" min="80" max="255" value="200">
 </div>
 <div class="field">
-<label>Durée <span><span id="durationValue">1000</span> ms</span></label>
+<label>Duree <span><span id="durationValue">1000</span> ms</span></label>
 <input type="range" id="durationSlider" min="100" max="2000" step="100" value="1000">
 </div>
 <div class="settings">
-Adresse de l'ESP8266 : <input type="text" id="esp32Ip" value="">
+Adresse de l'ESP32 : <input type="text" id="esp32Ip" value="">
 </div>
-<div class="log" id="log"><div class="line">Console prête. Appuyez sur un bouton…</div></div>
+<div class="log" id="log"><div class="line">Console prete. Appuyez sur un bouton…</div></div>
 </main>
-<footer>Projet Robot Mobile Intelligent — Phase 2</footer>
+<<footer>Projet Robot Mobile Intelligent — ESP32</footer>
 <script src="/script.js"></script>
 </body>
 </html>
 )rawliteral";
-
 
 // ----- CSS -----
 const char STYLE_CSS[] PROGMEM = R"rawliteral(
@@ -451,7 +448,6 @@ input[type=range]{width:100%;accent-color:#38bdf8}
 footer{margin-top:30px;font-size:.8rem;color:#64748b}
 )rawliteral";
 
-
 // ----- JS -----
 const char SCRIPT_JS[] PROGMEM = R"rawliteral(
 const speedSlider=document.getElementById('speedSlider');
@@ -475,19 +471,19 @@ function logLine(text,type=''){
  while(logBox.children.length>50) logBox.removeChild(logBox.firstChild);
 }
 function setOnline(o){
- if(o){statusIndicator.classList.add('online');statusText.textContent='Connecté';}
+ if(o){statusIndicator.classList.add('online');statusText.textContent='Connecte';}
  else{statusIndicator.classList.remove('online');statusText.textContent='Hors ligne';}
 }
 async function sendCommand(action){
  const speed=speedSlider.value;
  const duration=action==='STOP'?0:durationSlider.value;
  const url='/cmd?action='+action+'&duration='+duration+'&speed='+speed;
- logLine('→ '+action+' (durée '+duration+' ms, vitesse '+speed+')');
+ logLine('-> '+action+' (duree '+duration+' ms, vitesse '+speed+')');
  try{
   const res=await fetch(url,{cache:'no-store'});
   if(!res.ok) throw new Error('HTTP '+res.status);
   const txt=await res.text();
-  logLine('← '+txt,'ok');
+  logLine('<- '+txt,'ok');
   setOnline(true);
  }catch(e){
   logLine('Erreur : '+e.message,'err');
@@ -512,7 +508,6 @@ setInterval(async()=>{
 },5000);
 )rawliteral";
 
-
 /* =========================================================================
  *  CLASSE 5 : WebInterface
  * ========================================================================= */
@@ -530,7 +525,7 @@ public:
   void update() { m_server.handleClient(); }
 
 private:
-  ESP8266WebServer m_server;     // <-- spécifique ESP8266
+  WebServer m_server;            // <-- specifique ESP32
   RobotController& m_robot;
 
   void connectWifi() {
@@ -583,7 +578,7 @@ private:
       m_server.send(200, "text/plain", "OK");
     });
 
-    // 404 par défaut
+    // 404 par defaut
     m_server.onNotFound([this]() {
       addCors();
       m_server.send(404, "text/plain", "Not found");
