@@ -1,0 +1,10 @@
+{
+  "additionalFiles": "",
+  "builtInLibrariesFolders": "C:\\Users\\abouc\\AppData\\Local\\Arduino15\\libraries",
+  "compiler.optimization_flags": "-Os",
+  "customBuildProperties": "",
+  "fqbn": "esp32:esp32:esp32da:UploadSpeed=115200,CPUFreq=240,FlashFreq=40,FlashMode=dio,FlashSize=4M,PartitionScheme=default,DebugLevel=none,LoopCore=1,EventsCore=1,EraseFlash=none",
+  "hardwareFolders": "C:\\Users\\abouc\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\3.3.10,C:\\Users\\abouc\\AppData\\Local\\Arduino15\\packages\\esp32\\hardware\\esp32\\3.3.10",
+  "otherLibrariesFolders": "c:\\Users\\abouc\\OneDrive\\Documents\\Arduino\\libraries",
+  "sketchLocation": "C:\\Users\\abouc\\OneDrive\\Documents\\GitHub\\Projet_Arduino_Robot_mobile_intelligent\\code_base"
+}

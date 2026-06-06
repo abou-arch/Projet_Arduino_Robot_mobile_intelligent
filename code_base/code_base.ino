@@ -1,21 +1,21 @@
 /* =========================================================================
- *  PROJET : ROBOT MOBILE INTELLIGENT
- *  PHASES 1 + 2 : Deplacements simples + Page web embarquee
- *  Carte cible : ESP32 (module ESP-WROOM-32, DOIT DevKit V1, NodeMCU-ESP32, etc.)
- *  Driver moteur : L298N (IN1..IN4 + ENA/ENB)
- *  Auteur : Abou Camara
+ * PROJET : ROBOT MOBILE INTELLIGENT
+ * PHASES 1 + 2 : Deplacements simples + Page web embarquee
+ * Carte cible : ESP32 (module ESP-WROOM-32, DOIT DevKit V1, NodeMCU-ESP32, etc.)
+ * Driver moteur : L298N (IN1..IN4 + ENA/ENB)
+ * Auteur : Abou Camara
  *
- *  Pilotage possible :
- *    1. Moniteur serie (115200 bauds) :
- *         CMD|ACTION|DUREE_MS              -> vitesse par defaut
- *         CMD|ACTION|DUREE_MS|VITESSE      -> vitesse precisee (0-255)
+ * Pilotage possible :
+ * 1. Moniteur serie (115200 bauds) :
+ * CMD|ACTION|DUREE_MS        -> vitesse par defaut
+ * CMD|ACTION|DUREE_MS|VITESSE      -> vitesse precisee (0-255)
  *
- *    2. Page web embarquee (Wi-Fi) :
- *         GET /             -> controle_robot.html
- *         GET /style.css    -> style.css
- *         GET /script.js    -> script.js
- *         GET /cmd?action=FWD&duration=1000&speed=200
- *         GET /ping
+ * 2. Page web embarquee (Wi-Fi) :
+ * GET /                 -> controle_robot.html
+ * GET /style.css        -> style.css
+ * GET /script.js        -> script.js
+ * GET /cmd?action=FWD&duration=1000&speed=200
+ * GET /ping
  * ========================================================================= */
 
 #include <Arduino.h>
@@ -23,23 +23,21 @@
 #include <WebServer.h>
 
 // ----- Parametres Wi-Fi -----
-const char* WIFI_SSID     = "VOTRE_SSID";
-const char* WIFI_PASSWORD = "VOTRE_PASSWORD";
+const char* WIFI_SSID     = "Robot_mamadou";
+const char* WIFI_PASSWORD = "Number1234";
 
 // ----- Broches ESP32 / L298N -----
 const int LEFT_MOTOR_IN1  = 26;
 const int LEFT_MOTOR_IN2  = 27;
-const int LEFT_MOTOR_ENA  = 25;   // PWM
+const int LEFT_MOTOR_ENA  = 25;   // Broche PWM Gauche
 const int RIGHT_MOTOR_IN1 = 14;
 const int RIGHT_MOTOR_IN2 = 33;
-const int RIGHT_MOTOR_ENB = 32;   // PWM
+const int RIGHT_MOTOR_ENB = 32;   // Broche PWM Droite
 const int STATUS_LED      = 2;    // LED interne sur la plupart des cartes
 
-// ----- PWM (API ledc specifique ESP32) -----
-const int PWM_FREQ          = 1000;
-const int PWM_RESOLUTION    = 8;     // 0 a 255
-const int PWM_CHANNEL_LEFT  = 0;
-const int PWM_CHANNEL_RIGHT = 1;
+// ----- PWM (Nouvelle API ledc specifique ESP32 v3.0+) -----
+const int PWM_FREQ        = 1000;
+const int PWM_RESOLUTION  = 8;     // 0 a 255
 
 // ----- Securite -----
 const unsigned long MAX_DURATION_MS = 2000;
@@ -50,7 +48,7 @@ const int           MIN_SPEED_MOVE  = 80;
 enum class RobotAction { FORWARD, BACKWARD, LEFT, RIGHT, STOP, INVALID };
 
 struct RobotCommand {
-  String        prefix;
+  String         prefix;
   RobotAction   action;
   unsigned long duration;
   int           speed;
@@ -68,11 +66,9 @@ public:
     pinMode(RIGHT_MOTOR_IN2, OUTPUT);
     pinMode(STATUS_LED,      OUTPUT);
 
-    // Canaux PWM
-    ledcSetup(PWM_CHANNEL_LEFT,  PWM_FREQ, PWM_RESOLUTION);
-    ledcSetup(PWM_CHANNEL_RIGHT, PWM_FREQ, PWM_RESOLUTION);
-    ledcAttachPin(LEFT_MOTOR_ENA,  PWM_CHANNEL_LEFT);
-    ledcAttachPin(RIGHT_MOTOR_ENB, PWM_CHANNEL_RIGHT);
+    // Configuration PWM ESP32 v3.0+ : On attache directement la broche avec freq et resolution
+    ledcAttach(LEFT_MOTOR_ENA,  PWM_FREQ, PWM_RESOLUTION);
+    ledcAttach(RIGHT_MOTOR_ENB, PWM_FREQ, PWM_RESOLUTION);
 
     stop();
   }
@@ -114,16 +110,20 @@ public:
     digitalWrite(LEFT_MOTOR_IN2,  LOW);
     digitalWrite(RIGHT_MOTOR_IN1, LOW);
     digitalWrite(RIGHT_MOTOR_IN2, LOW);
-    ledcWrite(PWM_CHANNEL_LEFT,  0);
-    ledcWrite(PWM_CHANNEL_RIGHT, 0);
+    
+    // On applique le PWM 0 directement sur les broches
+    ledcWrite(LEFT_MOTOR_ENA,  0);
+    ledcWrite(RIGHT_MOTOR_ENB, 0);
     digitalWrite(STATUS_LED, LOW);
   }
 
 private:
   void applySpeed(int speed) {
     int safeSpeed = constrain(speed, 0, MAX_SPEED);
-    ledcWrite(PWM_CHANNEL_LEFT,  safeSpeed);
-    ledcWrite(PWM_CHANNEL_RIGHT, safeSpeed);
+    
+    // On envoie le signal PWM directement sur les broches physiques
+    ledcWrite(LEFT_MOTOR_ENA,  safeSpeed);
+    ledcWrite(RIGHT_MOTOR_ENB, safeSpeed);
     digitalWrite(STATUS_LED, safeSpeed > 0 ? HIGH : LOW);
   }
 };

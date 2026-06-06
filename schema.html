@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 900" font-family="Arial, Helvetica, sans-serif">
+  <rect width="1400" height="900" fill="#FFFFFF"/>
+
+  <text x="700" y="40" text-anchor="middle" font-size="24" font-weight="bold" fill="#1F3A5F">Schema de cablage - ESP32 + L298N + 2 moteurs</text>
+  <text x="700" y="64" text-anchor="middle" font-size="13" fill="#475569">Lire de gauche a droite. Chaque fil est etiquete avec sa fonction.</text>
+
+  <!-- ESP32 -->
+  <rect x="60" y="120" width="240" height="500" rx="14" fill="#1F4E79" stroke="#0F2A4A" stroke-width="2"/>
+  <text x="180" y="155" text-anchor="middle" fill="white" font-size="20" font-weight="bold">ESP32</text>
+  <text x="180" y="178" text-anchor="middle" fill="#CBD5E1" font-size="12">ESP-WROOM-32</text>
+
+  <g font-size="14" font-weight="bold" fill="#1F4E79">
+    <rect x="270" y="210" width="70" height="28" fill="white" stroke="#1F4E79" stroke-width="1.5"/><text x="305" y="229" text-anchor="middle">GPIO 26</text>
+    <rect x="270" y="258" width="70" height="28" fill="white" stroke="#1F4E79" stroke-width="1.5"/><text x="305" y="277" text-anchor="middle">GPIO 27</text>
+    <rect x="270" y="306" width="70" height="28" fill="white" stroke="#1F4E79" stroke-width="1.5"/><text x="305" y="325" text-anchor="middle">GPIO 25</text>
+    <rect x="270" y="354" width="70" height="28" fill="white" stroke="#1F4E79" stroke-width="1.5"/><text x="305" y="373" text-anchor="middle">GPIO 14</text>
+    <rect x="270" y="402" width="70" height="28" fill="white" stroke="#1F4E79" stroke-width="1.5"/><text x="305" y="421" text-anchor="middle">GPIO 33</text>
+    <rect x="270" y="450" width="70" height="28" fill="white" stroke="#1F4E79" stroke-width="1.5"/><text x="305" y="469" text-anchor="middle">GPIO 32</text>
+    <rect x="270" y="498" width="70" height="28" fill="white" stroke="#64748B" stroke-width="1.5"/><text x="305" y="517" text-anchor="middle">GND</text>
+  </g>
+
+  <!-- L298N -->
+  <rect x="700" y="120" width="240" height="500" rx="14" fill="#0EA5E9" stroke="#075985" stroke-width="2"/>
+  <text x="820" y="155" text-anchor="middle" fill="white" font-size="20" font-weight="bold">L298N</text>
+  <text x="820" y="178" text-anchor="middle" fill="#E0F2FE" font-size="12">Driver moteur</text>
+
+  <g font-size="14" font-weight="bold" fill="#075985">
+    <rect x="680" y="210" width="50" height="28" fill="white" stroke="#075985" stroke-width="1.5"/><text x="705" y="229" text-anchor="middle">IN1</text>
+    <rect x="680" y="258" width="50" height="28" fill="white" stroke="#075985" stroke-width="1.5"/><text x="705" y="277" text-anchor="middle">IN2</text>
+    <rect x="680" y="306" width="50" height="28" fill="white" stroke="#075985" stroke-width="1.5"/><text x="705" y="325" text-anchor="middle">ENA</text>
+    <rect x="680" y="354" width="50" height="28" fill="white" stroke="#075985" stroke-width="1.5"/><text x="705" y="373" text-anchor="middle">IN3</text>
+    <rect x="680" y="402" width="50" height="28" fill="white" stroke="#075985" stroke-width="1.5"/><text x="705" y="421" text-anchor="middle">IN4</text>
+    <rect x="680" y="450" width="50" height="28" fill="white" stroke="#075985" stroke-width="1.5"/><text x="705" y="469" text-anchor="middle">ENB</text>
+    <rect x="680" y="498" width="50" height="28" fill="white" stroke="#64748B" stroke-width="1.5"/><text x="705" y="517" text-anchor="middle">GND</text>
+  </g>
+
+  <g font-size="14" font-weight="bold" fill="#075985">
+    <rect x="910" y="240" width="60" height="28" fill="white" stroke="#075985" stroke-width="1.5"/><text x="940" y="259" text-anchor="middle">OUT1</text>
+    <rect x="910" y="278" width="60" height="28" fill="white" stroke="#075985" stroke-width="1.5"/><text x="940" y="297" text-anchor="middle">OUT2</text>
+    <rect x="910" y="396" width="60" height="28" fill="white" stroke="#075985" stroke-width="1.5"/><text x="940" y="415" text-anchor="middle">OUT3</text>
+    <rect x="910" y="434" width="60" height="28" fill="white" stroke="#075985" stroke-width="1.5"/><text x="940" y="453" text-anchor="middle">OUT4</text>
+  </g>
+
+  <g font-size="13" font-weight="bold" fill="#075985">
+    <rect x="730" y="560" width="60" height="28" fill="white" stroke="#DC2626" stroke-width="2"/><text x="760" y="579" text-anchor="middle">+VS</text>
+    <rect x="800" y="560" width="60" height="28" fill="white" stroke="#64748B" stroke-width="2"/><text x="830" y="579" text-anchor="middle">GND</text>
+  </g>
+
+  <!-- Moteurs -->
+  <ellipse cx="1140" cy="270" rx="70" ry="45" fill="#334155" stroke="#0F172A" stroke-width="2"/>
+  <text x="1140" y="265" text-anchor="middle" fill="white" font-size="15" font-weight="bold">Moteur</text>
+  <text x="1140" y="285" text-anchor="middle" fill="#CBD5E1" font-size="13">GAUCHE</text>
+
+  <ellipse cx="1140" cy="430" rx="70" ry="45" fill="#334155" stroke="#0F172A" stroke-width="2"/>
+  <text x="1140" y="425" text-anchor="middle" fill="white" font-size="15" font-weight="bold">Moteur</text>
+  <text x="1140" y="445" text-anchor="middle" fill="#CBD5E1" font-size="13">DROIT</text>
+
+  <!-- Fils ESP32 -> L298N (lignes droites) -->
+  <g stroke-width="3" fill="none">
+    <line x1="340" y1="224" x2="680" y2="224" stroke="#EA580C"/>
+    <line x1="340" y1="272" x2="680" y2="272" stroke="#EA580C"/>
+    <line x1="340" y1="320" x2="680" y2="320" stroke="#F59E0B"/>
+    <line x1="340" y1="368" x2="680" y2="368" stroke="#EA580C"/>
+    <line x1="340" y1="416" x2="680" y2="416" stroke="#EA580C"/>
+    <line x1="340" y1="464" x2="680" y2="464" stroke="#F59E0B"/>
+    <line x1="340" y1="512" x2="680" y2="512" stroke="#64748B"/>
+  </g>
+
+  <g font-size="13" fill="#1F3A5F" text-anchor="middle" font-weight="bold">
+    <text x="510" y="218">sens moteur gauche</text>
+    <text x="510" y="266">sens moteur gauche</text>
+    <text x="510" y="314">VITESSE moteur gauche (PWM)</text>
+    <text x="510" y="362">sens moteur droit</text>
+    <text x="510" y="410">sens moteur droit</text>
+    <text x="510" y="458">VITESSE moteur droit (PWM)</text>
+    <text x="510" y="506">masse commune</text>
+  </g>
+
+  <!-- Fils L298N -> moteurs -->
+  <g stroke="#0F172A" stroke-width="3" fill="none">
+    <line x1="970" y1="254" x2="1070" y2="254"/>
+    <line x1="970" y1="292" x2="1070" y2="292"/>
+    <line x1="1070" y1="254" x2="1070" y2="270"/>
+    <line x1="1070" y1="292" x2="1070" y2="276"/>
+    <line x1="970" y1="410" x2="1070" y2="410"/>
+    <line x1="970" y1="448" x2="1070" y2="448"/>
+    <line x1="1070" y1="410" x2="1070" y2="426"/>
+    <line x1="1070" y1="448" x2="1070" y2="432"/>
+  </g>
+
+  <!-- Batterie -->
+  <rect x="700" y="700" width="240" height="80" rx="10" fill="#16A34A" stroke="#15803D" stroke-width="2"/>
+  <text x="820" y="730" text-anchor="middle" fill="white" font-size="18" font-weight="bold">Batterie</text>
+  <text x="820" y="752" text-anchor="middle" fill="#DCFCE7" font-size="13">7 a 9 V (piles ou LiPo)</text>
+  <text x="745" y="772" text-anchor="middle" fill="#DCFCE7" font-size="14" font-weight="bold">+</text>
+  <text x="895" y="772" text-anchor="middle" fill="#DCFCE7" font-size="14" font-weight="bold">-</text>
+
+  <g stroke-width="3" fill="none">
+    <line x1="760" y1="700" x2="760" y2="588" stroke="#DC2626"/>
+    <line x1="830" y1="700" x2="830" y2="588" stroke="#64748B"/>
+  </g>
+
+  <g stroke="#64748B" stroke-width="3" fill="none" stroke-dasharray="8,6">
+    <path d="M180,620 L 180,820 L 830,820 L 830,780"/>
+  </g>
+  <text x="350" y="840" font-size="13" fill="#475569" font-weight="bold">Masse commune : ESP32 GND + L298N GND + Batterie -</text>
+
+  <g transform="translate(60,720)">
+    <rect x="-10" y="-25" width="500" height="160" fill="#F8FAFC" stroke="#94A3B8" stroke-width="1" rx="8"/>
+    <text x="0" y="-5" font-size="15" font-weight="bold" fill="#1F3A5F">Legende des fils</text>
+    <line x1="0" y1="20" x2="50" y2="20" stroke="#EA580C" stroke-width="3"/>
+    <text x="60" y="24" font-size="13" fill="#334155">Orange fonce : signal de sens (IN1..IN4)</text>
+    <line x1="0" y1="50" x2="50" y2="50" stroke="#F59E0B" stroke-width="3"/>
+    <text x="60" y="54" font-size="13" fill="#334155">Orange clair : signal PWM de vitesse (ENA, ENB)</text>
+    <line x1="0" y1="80" x2="50" y2="80" stroke="#DC2626" stroke-width="3"/>
+    <text x="60" y="84" font-size="13" fill="#334155">Rouge : alimentation +</text>
+    <line x1="0" y1="110" x2="50" y2="110" stroke="#64748B" stroke-width="3" stroke-dasharray="8,6"/>
+    <text x="60" y="114" font-size="13" fill="#334155">Gris pointille : masse / GND (a relier ensemble)</text>
+  </g>
+
+  <g transform="translate(1240,120)">
+    <text x="60" y="0" text-anchor="middle" font-size="15" font-weight="bold" fill="#1F3A5F">Connexions</text>
+    <rect x="-20" y="15" width="170" height="28" fill="#1F4E79"/>
+    <text x="65" y="35" text-anchor="middle" font-size="12" font-weight="bold" fill="white">ESP32 vers L298N</text>
+    <g font-size="12" fill="#334155">
+      <text x="-15" y="65" font-weight="bold" fill="#EA580C">GPIO 26</text><text x="50" y="65">-></text><text x="80" y="65" font-weight="bold" fill="#0EA5E9">IN1</text>
+      <text x="-15" y="90" font-weight="bold" fill="#EA580C">GPIO 27</text><text x="50" y="90">-></text><text x="80" y="90" font-weight="bold" fill="#0EA5E9">IN2</text>
+      <text x="-15" y="115" font-weight="bold" fill="#F59E0B">GPIO 25</text><text x="50" y="115">-></text><text x="80" y="115" font-weight="bold" fill="#0EA5E9">ENA</text>
+      <text x="-15" y="140" font-weight="bold" fill="#EA580C">GPIO 14</text><text x="50" y="140">-></text><text x="80" y="140" font-weight="bold" fill="#0EA5E9">IN3</text>
+      <rect x="-22" y="148" width="105" height="22" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1"/><text x="-15" y="165" font-weight="bold" fill="#EA580C">GPIO 33</text><text x="50" y="165">-></text><text x="80" y="165" font-weight="bold" fill="#0EA5E9">IN4</text>
+      <text x="-15" y="190" font-weight="bold" fill="#F59E0B">GPIO 32</text><text x="50" y="190">-></text><text x="80" y="190" font-weight="bold" fill="#0EA5E9">ENB</text>
+      <text x="-15" y="215" font-weight="bold" fill="#64748B">GND</text><text x="50" y="215">-></text><text x="80" y="215" font-weight="bold" fill="#0EA5E9">GND</text>
+    </g>
+    <rect x="-20" y="240" width="170" height="28" fill="#1F4E79"/>
+    <text x="65" y="260" text-anchor="middle" font-size="12" font-weight="bold" fill="white">L298N vers moteurs</text>
+    <g font-size="13" fill="#334155">
+      <text x="-15" y="290" font-weight="bold" fill="#0EA5E9">OUT1</text><text x="35" y="290">Moteur G +</text>
+      <text x="-15" y="315" font-weight="bold" fill="#0EA5E9">OUT2</text><text x="35" y="315">Moteur G -</text>
+      <text x="-15" y="340" font-weight="bold" fill="#0EA5E9">OUT3</text><text x="35" y="340">Moteur D +</text>
+      <text x="-15" y="365" font-weight="bold" fill="#0EA5E9">OUT4</text><text x="35" y="365">Moteur D -</text>
+    </g>
+    <rect x="-20" y="390" width="170" height="28" fill="#1F4E79"/>
+    <text x="65" y="410" text-anchor="middle" font-size="12" font-weight="bold" fill="white">Batterie vers L298N</text>
+    <g font-size="13" fill="#334155">
+      <text x="-15" y="440" font-weight="bold" fill="#DC2626">+</text><text x="20" y="440">vers</text><text x="60" y="440" font-weight="bold" fill="#0EA5E9">+VS</text>
+      <text x="-15" y="465" font-weight="bold" fill="#64748B">-</text><text x="20" y="465">vers</text><text x="60" y="465" font-weight="bold" fill="#0EA5E9">GND</text>
+    </g>
+    <rect x="-20" y="500" width="170" height="90" fill="#FEF3C7" stroke="#F59E0B" rx="6"/>
+    <text x="0" y="522" font-size="12" font-weight="bold" fill="#92400E">A NE PAS OUBLIER</text>
+    <text x="0" y="542" font-size="11" fill="#92400E">Retirer les cavaliers</text>
+    <text x="0" y="556" font-size="11" fill="#92400E">ENA et ENB pour</text>
+    <text x="0" y="570" font-size="11" fill="#92400E">activer le PWM.</text>
+  </g>
+</svg>
