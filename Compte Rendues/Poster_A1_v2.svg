@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 594 841" font-family="Arial, Helvetica, sans-serif">
+  <!-- Format A1 portrait : 594mm x 841mm -->
+
+  <!-- Fond general -->
+  <rect width="594" height="841" fill="#F8FAFC"/>
+
+  <!-- ============= BANDEAU TITRE ============= -->
+  <rect x="0" y="0" width="594" height="90" fill="#1F3A5F"/>
+  <rect x="0" y="90" width="594" height="6" fill="#38BDF8"/>
+
+  <!-- Titre -->
+  <text x="297" y="36" text-anchor="middle" font-size="20" font-weight="bold" fill="white">PROJET ROBOT MOBILE INTELLIGENT</text>
+  <text x="297" y="58" text-anchor="middle" font-size="11" fill="#CBD5E1">Conception, programmation et controle vocal d'un robot a base d'ESP32</text>
+  <text x="297" y="76" text-anchor="middle" font-size="9" fill="#94A3B8">Projet d'electronique embarquee - Annee universitaire 2025 - 2026</text>
+
+  <!-- Bandeau encadrants / equipe -->
+  <rect x="0" y="96" width="594" height="60" fill="#0EA5E9"/>
+  <text x="20" y="112" font-size="8" font-weight="bold" fill="white">ENCADRANTS :</text>
+  <text x="20" y="122" font-size="8" fill="white">Pr. Taha Zoulagh</text>
+  <text x="20" y="132" font-size="8" fill="white">Pr. Ayadi Nouamane</text>
+  <text x="20" y="142" font-size="8" fill="white">Etudiant Glenn</text>
+
+  <text x="297" y="108" text-anchor="middle" font-size="8" font-weight="bold" fill="white">EQUIPE</text>
+  <text x="297" y="118" text-anchor="middle" font-size="7.5" fill="white">Camara Cherif Aboubacar</text>
+  <text x="297" y="126" text-anchor="middle" font-size="7.5" fill="white">Magagi Ibrahima Laila</text>
+  <text x="297" y="134" text-anchor="middle" font-size="7.5" fill="white">Dembadiang Seynabou Fadera</text>
+  <text x="297" y="142" text-anchor="middle" font-size="7.5" fill="white">Elmahouer Chaimae</text>
+
+  <text x="574" y="112" text-anchor="end" font-size="8" font-weight="bold" fill="white">FILIERE :</text>
+  <text x="574" y="122" text-anchor="end" font-size="8" fill="white">EIDIA</text>
+
+  <!-- ============= SECTION 1 : OBJECTIF + PROBLEMATIQUE ============= -->
+  <g transform="translate(15,150)">
+    <!-- Objectif -->
+    <rect x="0" y="0" width="275" height="85" fill="white" stroke="#1F4E79" stroke-width="1.5" rx="4"/>
+    <rect x="0" y="0" width="275" height="18" fill="#1F4E79" rx="4"/>
+    <rect x="0" y="14" width="275" height="4" fill="#1F4E79"/>
+    <text x="8" y="13" font-size="9" font-weight="bold" fill="white">OBJECTIF DU PROJET</text>
+
+    <text x="8" y="30" font-size="7" fill="#1F3A5F" font-weight="bold">Concevoir un robot mobile pilotable de trois facons :</text>
+    <text x="8" y="42" font-size="6.5" fill="#334155">- Phase 1 : commandes simples via le moniteur serie</text>
+    <text x="8" y="51" font-size="6.5" fill="#334155">- Phase 2 : page web embarquee sur l'ESP32 (boutons, vitesse, duree)</text>
+    <text x="8" y="60" font-size="6.5" fill="#334155">- Phase 3 : assistant vocal en francais avec chatbot Luna (LLM local)</text>
+    <text x="8" y="72" font-size="6.5" fill="#475569" font-style="italic">Mettre en pratique la programmation embarquee, le Wi-Fi, la POO C++,</text>
+    <text x="8" y="80" font-size="6.5" fill="#475569" font-style="italic">le web (HTML/CSS/JS), une API REST (FastAPI) et un LLM local (Ollama).</text>
+  </g>
+
+  <g transform="translate(304,150)">
+    <!-- Problematique -->
+    <rect x="0" y="0" width="275" height="85" fill="white" stroke="#DC2626" stroke-width="1.5" rx="4"/>
+    <rect x="0" y="0" width="275" height="18" fill="#DC2626" rx="4"/>
+    <rect x="0" y="14" width="275" height="4" fill="#DC2626"/>
+    <text x="8" y="13" font-size="9" font-weight="bold" fill="white">PROBLEMATIQUE</text>
+
+    <text x="8" y="30" font-size="7" fill="#1F3A5F" font-weight="bold">Comment piloter un robot a roues de maniere flexible et naturelle ?</text>
+    <text x="8" y="42" font-size="6.5" fill="#334155">- Un cable serie limite la mobilite du robot.</text>
+    <text x="8" y="51" font-size="6.5" fill="#334155">- Une telecommande dediee coute cher et est rigide.</text>
+    <text x="8" y="60" font-size="6.5" fill="#334155">- L'utilisateur veut donner des ordres en langage naturel.</text>
+    <text x="8" y="72" font-size="6.5" fill="#475569" font-style="italic">Defi : construire une chaine voix -&gt; texte -&gt; intention -&gt; commande -&gt;</text>
+    <text x="8" y="80" font-size="6.5" fill="#475569" font-style="italic">moteurs, fiable, en temps reel, en restant 100 % local (vie privee).</text>
+  </g>
+
+  <!-- ============= SECTION 2 : ARCHITECTURE DU SYSTEME ============= -->
+  <g transform="translate(15,250)">
+    <rect x="0" y="0" width="564" height="160" fill="white" stroke="#1F4E79" stroke-width="1.5" rx="4"/>
+    <rect x="0" y="0" width="564" height="18" fill="#1F4E79" rx="4"/>
+    <rect x="0" y="14" width="564" height="4" fill="#1F4E79"/>
+    <text x="8" y="13" font-size="9" font-weight="bold" fill="white">ARCHITECTURE DU SYSTEME</text>
+
+    <!-- Mini diagramme architecture -->
+    <g transform="translate(15,28)">
+      <!-- Phase 1 -->
+      <rect x="0" y="10" width="80" height="30" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1" rx="3"/>
+      <text x="40" y="22" text-anchor="middle" font-size="6" font-weight="bold" fill="#0C4A6E">Moniteur serie</text>
+      <text x="40" y="30" text-anchor="middle" font-size="5" fill="#475569">CMD|ACTION|DUREE</text>
+      <text x="40" y="37" text-anchor="middle" font-size="5" fill="#475569">115200 bauds</text>
+
+      <!-- Phase 2 -->
+      <rect x="0" y="55" width="80" height="30" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1" rx="3"/>
+      <text x="40" y="67" text-anchor="middle" font-size="6" font-weight="bold" fill="#0C4A6E">Navigateur (Wi-Fi)</text>
+      <text x="40" y="75" text-anchor="middle" font-size="5" fill="#475569">controle_robot.html</text>
+      <text x="40" y="82" text-anchor="middle" font-size="5" fill="#475569">Boutons + curseurs</text>
+
+      <!-- Phase 3 -->
+      <rect x="0" y="100" width="80" height="30" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1" rx="3"/>
+      <text x="40" y="112" text-anchor="middle" font-size="6" font-weight="bold" fill="#92400E">Voix utilisateur</text>
+      <text x="40" y="120" text-anchor="middle" font-size="5" fill="#475569">Speech-to-Text</text>
+      <text x="40" y="127" text-anchor="middle" font-size="5" fill="#475569">FastAPI + Ollama</text>
+
+      <!-- Fleches -->
+      <line x1="80" y1="25" x2="220" y2="55" stroke="#1F4E79" stroke-width="1.5"/>
+      <line x1="80" y1="70" x2="220" y2="65" stroke="#1F4E79" stroke-width="1.5"/>
+      <line x1="80" y1="115" x2="220" y2="75" stroke="#1F4E79" stroke-width="1.5"/>
+
+      <!-- ESP32 (coeur du systeme) -->
+      <rect x="220" y="40" width="120" height="60" fill="#1F4E79" stroke="#0F2A4A" stroke-width="1.5" rx="4"/>
+      <text x="280" y="55" text-anchor="middle" font-size="8" font-weight="bold" fill="white">ESP32</text>
+      <text x="280" y="65" text-anchor="middle" font-size="5" fill="#CBD5E1">CommandParser</text>
+      <text x="280" y="72" text-anchor="middle" font-size="5" fill="#CBD5E1">SafetyManager</text>
+      <text x="280" y="79" text-anchor="middle" font-size="5" fill="#CBD5E1">RobotController</text>
+      <text x="280" y="86" text-anchor="middle" font-size="5" fill="#CBD5E1">MotorController</text>
+      <text x="280" y="93" text-anchor="middle" font-size="5" fill="#CBD5E1">WebInterface</text>
+
+      <!-- Fleches ESP32 -> L298N -->
+      <line x1="340" y1="70" x2="380" y2="70" stroke="#1F4E79" stroke-width="1.5"/>
+
+      <!-- L298N -->
+      <rect x="380" y="55" width="60" height="30" fill="#0EA5E9" stroke="#075985" stroke-width="1" rx="3"/>
+      <text x="410" y="67" text-anchor="middle" font-size="6" font-weight="bold" fill="white">L298N</text>
+      <text x="410" y="76" text-anchor="middle" font-size="5" fill="#E0F2FE">Driver moteur</text>
+
+      <!-- Moteurs -->
+      <line x1="440" y1="70" x2="475" y2="50" stroke="#0F172A" stroke-width="1.5"/>
+      <line x1="440" y1="70" x2="475" y2="90" stroke="#0F172A" stroke-width="1.5"/>
+
+      <ellipse cx="500" cy="50" rx="25" ry="12" fill="#334155" stroke="#0F172A" stroke-width="1"/>
+      <text x="500" y="52" text-anchor="middle" font-size="6" font-weight="bold" fill="white">Moteur G</text>
+
+      <ellipse cx="500" cy="90" rx="25" ry="12" fill="#334155" stroke="#0F172A" stroke-width="1"/>
+      <text x="500" y="92" text-anchor="middle" font-size="6" font-weight="bold" fill="white">Moteur D</text>
+
+      <!-- Legendes des fleches -->
+      <text x="150" y="35" font-size="5" fill="#475569" font-style="italic">USB serie</text>
+      <text x="150" y="58" font-size="5" fill="#475569" font-style="italic">HTTP / Wi-Fi</text>
+      <text x="150" y="98" font-size="5" fill="#475569" font-style="italic">HTTP /cmd</text>
+      <text x="360" y="67" font-size="5" fill="#475569" font-style="italic">PWM + sens</text>
+    </g>
+
+    <!-- Note explicative -->
+    <text x="282" y="150" text-anchor="middle" font-size="6" fill="#475569" font-style="italic">Les 3 sources d'entree convergent vers un format commun "CMD|ACTION|DUREE|VITESSE" traite par le RobotController.</text>
+  </g>
+
+  <!-- ============= SECTION 3 : COMPOSANTS UTILISES ============= -->
+  <g transform="translate(15,425)">
+    <rect x="0" y="0" width="275" height="180" fill="white" stroke="#1F4E79" stroke-width="1.5" rx="4"/>
+    <rect x="0" y="0" width="275" height="18" fill="#1F4E79" rx="4"/>
+    <rect x="0" y="14" width="275" height="4" fill="#1F4E79"/>
+    <text x="8" y="13" font-size="9" font-weight="bold" fill="white">COMPOSANTS UTILISES</text>
+
+    <!-- Materiel -->
+    <text x="8" y="30" font-size="7" font-weight="bold" fill="#1F4E79">Materiel :</text>
+
+    <g font-size="6" fill="#334155">
+      <text x="8" y="40">- Carte ESP32 (module ESP-WROOM-32, Wi-Fi + BT)</text>
+      <text x="8" y="48">- Driver moteur L298N (double pont en H)</text>
+      <text x="8" y="56">- 2 moteurs CC jaunes a reducteur + 2 roues</text>
+      <text x="8" y="64">- 1 roue folle stabilisatrice</text>
+      <text x="8" y="72">- Chassis 2 roues (acrylique)</text>
+      <text x="8" y="80">- Pack 4 a 6 piles AA (~9 V)</text>
+      <text x="8" y="88">- Cables Dupont</text>
+      <text x="8" y="96">- PC + microphone + haut-parleur</text>
+      <text x="8" y="104">- Telephone Android (app compagnon)</text>
+    </g>
+
+    <!-- Logiciel -->
+    <text x="8" y="118" font-size="7" font-weight="bold" fill="#1F4E79">Logiciel :</text>
+    <g font-size="6" fill="#334155">
+      <text x="8" y="128">- Arduino IDE + ESP32 Core v3.x</text>
+      <text x="8" y="136">- Bibliotheques WiFi.h, WebServer.h, ledc</text>
+      <text x="8" y="144">- HTML / CSS / JavaScript (page embarquee)</text>
+      <text x="8" y="152">- Python 3 + FastAPI + Uvicorn + Pydantic</text>
+      <text x="8" y="160">- SpeechRecognition + pyttsx3 (voix)</text>
+      <text x="8" y="168">- Ollama + modele phi3:mini (chatbot Luna)</text>
+    </g>
+  </g>
+
+  <!-- ============= SECTION 4 : PRINCIPE DE FONCTIONNEMENT ============= -->
+  <g transform="translate(304,425)">
+    <rect x="0" y="0" width="275" height="180" fill="white" stroke="#1F4E79" stroke-width="1.5" rx="4"/>
+    <rect x="0" y="0" width="275" height="18" fill="#1F4E79" rx="4"/>
+    <rect x="0" y="14" width="275" height="4" fill="#1F4E79"/>
+    <text x="8" y="13" font-size="9" font-weight="bold" fill="white">PRINCIPE DE FONCTIONNEMENT</text>
+
+    <text x="8" y="30" font-size="6.5" fill="#334155" font-weight="bold">1. Reception de la commande (serie, web ou voix)</text>
+    <text x="8" y="40" font-size="6" fill="#475569">L'utilisateur emet une commande textuelle ou vocale.</text>
+
+    <text x="8" y="52" font-size="6.5" fill="#334155" font-weight="bold">2. Analyse par le CommandParser</text>
+    <text x="8" y="62" font-size="6" fill="#475569">Decoupage de la chaine CMD|ACTION|DUREE|VITESSE.</text>
+
+    <text x="8" y="74" font-size="6.5" fill="#334155" font-weight="bold">3. Securisation (SafetyManager)</text>
+    <text x="8" y="84" font-size="6" fill="#475569">Bornage : duree max 2 s, vitesse entre 80 et 255.</text>
+
+    <text x="8" y="96" font-size="6.5" fill="#334155" font-weight="bold">4. Pilotage des moteurs (MotorController)</text>
+    <text x="8" y="106" font-size="6" fill="#475569">Sens via IN1-IN4, vitesse via PWM sur ENA/ENB.</text>
+
+    <text x="8" y="118" font-size="6.5" fill="#334155" font-weight="bold">5. Arret automatique (timeout)</text>
+    <text x="8" y="128" font-size="6" fill="#475569">Le RobotController coupe les moteurs apres la duree.</text>
+
+    <!-- Mini schema cablage -->
+    <g transform="translate(15,140)">
+      <rect x="0" y="0" width="40" height="32" fill="#1F4E79" rx="2"/>
+      <text x="20" y="13" text-anchor="middle" font-size="5" font-weight="bold" fill="white">ESP32</text>
+      <text x="20" y="22" text-anchor="middle" font-size="4" fill="#CBD5E1">6 GPIO + GND</text>
+
+      <line x1="40" y1="10" x2="80" y2="10" stroke="#EA580C" stroke-width="1"/>
+      <line x1="40" y1="14" x2="80" y2="14" stroke="#EA580C" stroke-width="1"/>
+      <line x1="40" y1="18" x2="80" y2="18" stroke="#F59E0B" stroke-width="1"/>
+      <line x1="40" y1="22" x2="80" y2="22" stroke="#EA580C" stroke-width="1"/>
+      <line x1="40" y1="26" x2="80" y2="26" stroke="#EA580C" stroke-width="1"/>
+      <line x1="40" y1="30" x2="80" y2="30" stroke="#F59E0B" stroke-width="1"/>
+
+      <rect x="80" y="0" width="40" height="32" fill="#0EA5E9" rx="2"/>
+      <text x="100" y="13" text-anchor="middle" font-size="5" font-weight="bold" fill="white">L298N</text>
+      <text x="100" y="22" text-anchor="middle" font-size="4" fill="#E0F2FE">IN1-4 + ENA/B</text>
+
+      <line x1="120" y1="10" x2="135" y2="6" stroke="#0F172A" stroke-width="1"/>
+      <line x1="120" y1="22" x2="135" y2="26" stroke="#0F172A" stroke-width="1"/>
+
+      <ellipse cx="145" cy="6" rx="10" ry="5" fill="#334155"/>
+      <text x="145" y="8" text-anchor="middle" font-size="4" fill="white">M Gauche</text>
+
+      <ellipse cx="145" cy="26" rx="10" ry="5" fill="#334155"/>
+      <text x="145" y="28" text-anchor="middle" font-size="4" fill="white">M Droit</text>
+
+      <!-- Batterie -->
+      <rect x="80" y="42" width="40" height="12" fill="#16A34A" rx="2"/>
+      <text x="100" y="50" text-anchor="middle" font-size="4" font-weight="bold" fill="white">Batterie 9V</text>
+
+      <line x1="92" y1="32" x2="92" y2="42" stroke="#DC2626" stroke-width="1"/>
+      <line x1="108" y1="32" x2="108" y2="42" stroke="#64748B" stroke-width="1"/>
+    </g>
+    <text x="137" y="178" text-anchor="middle" font-size="5" fill="#475569" font-style="italic">Schema simplifie - voir poster en annexe</text>
+  </g>
+
+  <!-- ============= SECTION 5 : RESULTATS OBTENUS ============= -->
+  <g transform="translate(15,620)">
+    <rect x="0" y="0" width="564" height="80" fill="white" stroke="#16A34A" stroke-width="1.5" rx="4"/>
+    <rect x="0" y="0" width="564" height="18" fill="#16A34A" rx="4"/>
+    <rect x="0" y="14" width="564" height="4" fill="#16A34A"/>
+    <text x="8" y="13" font-size="9" font-weight="bold" fill="white">RESULTATS OBTENUS</text>
+
+    <g transform="translate(15,28)">
+      <!-- Resultat 1 -->
+      <rect x="0" y="0" width="170" height="42" fill="#DCFCE7" stroke="#16A34A" stroke-width="0.5" rx="3"/>
+      <text x="85" y="11" text-anchor="middle" font-size="7" font-weight="bold" fill="#15803D">Phase 1 - Serie</text>
+      <text x="6" y="22" font-size="6" fill="#166534">- Code C++ structure en 4 classes</text>
+      <text x="6" y="30" font-size="6" fill="#166534">- Pilotage CMD|ACTION|DUREE OK</text>
+      <text x="6" y="38" font-size="6" fill="#166534">- Securite timeout 2 s fonctionnelle</text>
+
+      <!-- Resultat 2 -->
+      <rect x="180" y="0" width="170" height="42" fill="#DCFCE7" stroke="#16A34A" stroke-width="0.5" rx="3"/>
+      <text x="265" y="11" text-anchor="middle" font-size="7" font-weight="bold" fill="#15803D">Phase 2 - Web</text>
+      <text x="186" y="22" font-size="6" fill="#166534">- Page hebergee directement par ESP32</text>
+      <text x="186" y="30" font-size="6" fill="#166534">- Pilotage telephone/PC en Wi-Fi</text>
+      <text x="186" y="38" font-size="6" fill="#166534">- Vitesse PWM + duree ajustables</text>
+
+      <!-- Resultat 3 -->
+      <rect x="360" y="0" width="170" height="42" fill="#DCFCE7" stroke="#16A34A" stroke-width="0.5" rx="3"/>
+      <text x="445" y="11" text-anchor="middle" font-size="7" font-weight="bold" fill="#15803D">Phase 3 - Voix</text>
+      <text x="366" y="22" font-size="6" fill="#166534">- Reconnaissance vocale francais OK</text>
+      <text x="366" y="30" font-size="6" fill="#166534">- Chatbot Luna (phi3:mini) hors-ligne</text>
+      <text x="366" y="38" font-size="6" fill="#166534">- Dispatch auto chat / robot / phone</text>
+    </g>
+
+    <text x="282" y="73" text-anchor="middle" font-size="6" fill="#475569" font-style="italic">Le robot demarre, se connecte au Wi-Fi, affiche son IP, sert la page de pilotage, et obeit en moins de 100 ms.</text>
+  </g>
+
+  <!-- ============= SECTION 6 : DIFFICULTES ET SOLUTIONS ============= -->
+  <g transform="translate(15,710)">
+    <!-- Difficultes -->
+    <rect x="0" y="0" width="275" height="100" fill="white" stroke="#F59E0B" stroke-width="1.5" rx="4"/>
+    <rect x="0" y="0" width="275" height="18" fill="#F59E0B" rx="4"/>
+    <rect x="0" y="14" width="275" height="4" fill="#F59E0B"/>
+    <text x="8" y="13" font-size="9" font-weight="bold" fill="white">DIFFICULTES RENCONTREES</text>
+
+    <g font-size="6" fill="#334155">
+      <text x="8" y="30">- Bouton BOOT capricieux empechant le televersement.</text>
+      <text x="8" y="40">- Changement d'API PWM entre ESP32 Core v2.x et v3.x.</text>
+      <text x="8" y="50">- Driver USB-serie CH340 difficile a installer sur Win 11.</text>
+      <text x="8" y="60">- Court-circuit accidentel sur les broches d'alimentation.</text>
+      <text x="8" y="70">- Reconnaissance vocale peu fiable en milieu bruyant.</text>
+      <text x="8" y="80">- Configuration de Ollama pour heberger le modele en local.</text>
+      <text x="8" y="90">- Synchronisation des trois sources de commande (serie/web/voix).</text>
+    </g>
+  </g>
+
+  <g transform="translate(304,710)">
+    <!-- Solutions -->
+    <rect x="0" y="0" width="275" height="100" fill="white" stroke="#0EA5E9" stroke-width="1.5" rx="4"/>
+    <rect x="0" y="0" width="275" height="18" fill="#0EA5E9" rx="4"/>
+    <rect x="0" y="14" width="275" height="4" fill="#0EA5E9"/>
+    <text x="8" y="13" font-size="9" font-weight="bold" fill="white">SOLUTIONS PROPOSEES</text>
+
+    <g font-size="6" fill="#334155">
+      <text x="8" y="30">- Utilisation de Flash Download Tool + procedure BOOT/EN.</text>
+      <text x="8" y="40">- Code conditionnel #if ESP_ARDUINO_VERSION_MAJOR pour compat.</text>
+      <text x="8" y="50">- Installation de la version 3.7 du driver WCH signe.</text>
+      <text x="8" y="60">- Verification systematique du cablage avant alim.</text>
+      <text x="8" y="70">- Calibration du micro avec adjust_for_ambient_noise().</text>
+      <text x="8" y="80">- Modele leger phi3:mini, prompt persona "Luna" en francais.</text>
+      <text x="8" y="90">- Format unique CMD|ACTION|DUREE|VITESSE pour les 3 sources.</text>
+    </g>
+  </g>
+
+  <!-- ============= CONCLUSION + PERSPECTIVES ============= -->
+  <rect x="15" y="818" width="564" height="0.5" fill="#1F3A5F"/>
+
+  <text x="297" y="828" text-anchor="middle" font-size="6.5" fill="#1F3A5F" font-weight="bold">CONCLUSION : robot fonctionnel en 3 phases, code modulaire (POO), demonstration en direct via voix et web.</text>
+  <text x="297" y="836" text-anchor="middle" font-size="6" fill="#475569" font-style="italic">Perspectives : capteur ultrasons HC-SR04 (evite-obstacles), encodeurs pour rotations precises, camera ESP32-CAM, securisation HTTPS de la page web.</text>
+
+</svg>

@@ -1,21 +1,21 @@
 /* =========================================================================
- * PROJET : ROBOT MOBILE INTELLIGENT
- * PHASES 1 + 2 : Deplacements simples + Page web embarquee
- * Carte cible : ESP32 (module ESP-WROOM-32, DOIT DevKit V1, NodeMCU-ESP32, etc.)
- * Driver moteur : L298N (IN1..IN4 + ENA/ENB)
- * Auteur : Abou Camara
+ *  PROJET : ROBOT MOBILE INTELLIGENT
+ *  PHASES 1 + 2 : Deplacements simples + Page web embarquee
+ *  Carte cible : ESP32 (module ESP-WROOM-32, DOIT DevKit V1, NodeMCU-ESP32)
+ *  Driver moteur : L298N (IN1..IN4 + ENA/ENB)
+ *  Auteur : Abou Camara
  *
- * Pilotage possible :
- * 1. Moniteur serie (115200 bauds) :
- * CMD|ACTION|DUREE_MS        -> vitesse par defaut
- * CMD|ACTION|DUREE_MS|VITESSE      -> vitesse precisee (0-255)
+ *  Pilotage possible :
+ *    1. Moniteur serie (115200 bauds) :
+ *         CMD|ACTION|DUREE_MS              -> vitesse par defaut
+ *         CMD|ACTION|DUREE_MS|VITESSE      -> vitesse precisee (0-255)
  *
- * 2. Page web embarquee (Wi-Fi) :
- * GET /                 -> controle_robot.html
- * GET /style.css        -> style.css
- * GET /script.js        -> script.js
- * GET /cmd?action=FWD&duration=1000&speed=200
- * GET /ping
+ *    2. Page web embarquee (Wi-Fi) :
+ *         GET /             -> controle_robot.html
+ *         GET /style.css    -> style.css
+ *         GET /script.js    -> script.js
+ *         GET /cmd?action=FWD&duration=1000&speed=200
+ *         GET /ping
  * ========================================================================= */
 
 #include <Arduino.h>
@@ -29,15 +29,15 @@ const char* WIFI_PASSWORD = "Number1234";
 // ----- Broches ESP32 / L298N -----
 const int LEFT_MOTOR_IN1  = 26;
 const int LEFT_MOTOR_IN2  = 27;
-const int LEFT_MOTOR_ENA  = 25;   // Broche PWM Gauche
+const int LEFT_MOTOR_ENA  = 25;   // Broche PWM moteur gauche
 const int RIGHT_MOTOR_IN1 = 14;
 const int RIGHT_MOTOR_IN2 = 33;
-const int RIGHT_MOTOR_ENB = 32;   // Broche PWM Droite
+const int RIGHT_MOTOR_ENB = 32;   // Broche PWM moteur droit
 const int STATUS_LED      = 2;    // LED interne sur la plupart des cartes
 
-// ----- PWM (Nouvelle API ledc specifique ESP32 v3.0+) -----
-const int PWM_FREQ        = 1000;
-const int PWM_RESOLUTION  = 8;     // 0 a 255
+// ----- PWM (API ledc ESP32 core v3.x) -----
+const int PWM_FREQ       = 1000;  // 1 kHz
+const int PWM_RESOLUTION = 8;     // 8 bits -> 0 a 255
 
 // ----- Securite -----
 const unsigned long MAX_DURATION_MS = 2000;
@@ -48,7 +48,7 @@ const int           MIN_SPEED_MOVE  = 80;
 enum class RobotAction { FORWARD, BACKWARD, LEFT, RIGHT, STOP, INVALID };
 
 struct RobotCommand {
-  String         prefix;
+  String        prefix;
   RobotAction   action;
   unsigned long duration;
   int           speed;
@@ -56,6 +56,7 @@ struct RobotCommand {
 
 // =========================================================================
 // CLASSE 1 : MotorController
+// Pilote sens (IN) et vitesse (PWM sur EN) des deux moteurs.
 // =========================================================================
 class MotorController {
 public:
@@ -66,7 +67,7 @@ public:
     pinMode(RIGHT_MOTOR_IN2, OUTPUT);
     pinMode(STATUS_LED,      OUTPUT);
 
-    // Configuration PWM ESP32 v3.0+ : On attache directement la broche avec freq et resolution
+    // Nouvelle API ESP32 core v3.x : on attache directement la broche
     ledcAttach(LEFT_MOTOR_ENA,  PWM_FREQ, PWM_RESOLUTION);
     ledcAttach(RIGHT_MOTOR_ENB, PWM_FREQ, PWM_RESOLUTION);
 
@@ -110,8 +111,6 @@ public:
     digitalWrite(LEFT_MOTOR_IN2,  LOW);
     digitalWrite(RIGHT_MOTOR_IN1, LOW);
     digitalWrite(RIGHT_MOTOR_IN2, LOW);
-    
-    // On applique le PWM 0 directement sur les broches
     ledcWrite(LEFT_MOTOR_ENA,  0);
     ledcWrite(RIGHT_MOTOR_ENB, 0);
     digitalWrite(STATUS_LED, LOW);
@@ -120,8 +119,6 @@ public:
 private:
   void applySpeed(int speed) {
     int safeSpeed = constrain(speed, 0, MAX_SPEED);
-    
-    // On envoie le signal PWM directement sur les broches physiques
     ledcWrite(LEFT_MOTOR_ENA,  safeSpeed);
     ledcWrite(RIGHT_MOTOR_ENB, safeSpeed);
     digitalWrite(STATUS_LED, safeSpeed > 0 ? HIGH : LOW);
@@ -130,6 +127,7 @@ private:
 
 // =========================================================================
 // CLASSE 2 : SafetyManager
+// Borne la duree (max 2 s) et la vitesse (min 80, max 255).
 // =========================================================================
 class SafetyManager {
 public:
@@ -146,6 +144,7 @@ public:
 
 // =========================================================================
 // CLASSE 3 : CommandParser
+// Decoupe la chaine "CMD|ACTION|DUREE[|VITESSE]" en RobotCommand.
 // =========================================================================
 class CommandParser {
 public:
@@ -204,11 +203,14 @@ private:
 
 // =========================================================================
 // CLASSE 4 : RobotController
+// Chef d'orchestre : recoit la commande, securise, execute, et coupe
+// automatiquement les moteurs apres la duree demandee.
 // =========================================================================
 class RobotController {
 public:
-  RobotController() : m_isMoving(false), m_startTime(0), m_currentDuration(0),
-                      m_lastReply("Robot pret.") {}
+  RobotController()
+    : m_isMoving(false), m_startTime(0), m_currentDuration(0),
+      m_lastReply("Robot pret.") {}
 
   void setup() {
     m_motorController.setupPins();
@@ -291,7 +293,7 @@ private:
 };
 
 // =========================================================================
-// RESSOURCES WEB EMBARQUEES
+// RESSOURCES WEB EMBARQUEES (stockees en flash, pas en RAM)
 // =========================================================================
 const char INDEX_HTML[] PROGMEM = R"rawliteral(
 <!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8">
@@ -379,6 +381,8 @@ setInterval(async()=>{try{const r=await fetch('/ping',{cache:'no-store'});setOnl
 
 // =========================================================================
 // CLASSE 5 : WebInterface
+// Demarre le Wi-Fi, heberge la page HTML/CSS/JS et traduit les requetes
+// /cmd?action=...&duration=...&speed=... en chaines "CMD|ACTION|DUREE|VITESSE"
 // =========================================================================
 class WebInterface {
 public:
@@ -424,7 +428,7 @@ private:
     m_server.on("/script.js", HTTP_GET, [this]() {
       addCors(); m_server.send_P(200, "application/javascript; charset=utf-8", SCRIPT_JS);
     });
-    m_server.on("/cmd", HTTP_GET, [this]() { handleCmd(); });
+    m_server.on("/cmd",  HTTP_GET, [this]() { handleCmd(); });
     m_server.on("/ping", HTTP_GET, [this]() {
       addCors(); m_server.send(200, "text/plain", "OK");
     });
@@ -451,19 +455,33 @@ private:
 };
 
 // =========================================================================
+// INSTANCES GLOBALES
+// =========================================================================
 RobotController robot;
 WebInterface    web(robot);
 
+// =========================================================================
+// SETUP : execute une seule fois au demarrage
+// =========================================================================
 void setup() {
+  Serial.setup(115200)
   robot.setup();
   web.begin();
 }
 
+// =========================================================================
+// LOOP : execute en boucle
+// =========================================================================
 void loop() {
+  // 1) Commande arrivee par le moniteur serie ?
   if (Serial.available()) {
     String command = Serial.readStringUntil('\n');
     robot.handleCommand(command);
   }
+
+  // 2) Requete arrivee par la page web ?
   web.update();
+
+  // 3) Verification du chronometre interne (timeout des mouvements)
   robot.update();
 }
