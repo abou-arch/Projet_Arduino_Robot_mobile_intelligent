@@ -1,8 +1,27 @@
 /* =========================================================================
  *  FEUILLE DE STYLE — Page de commande vocale (Phase 3)
- *  Cohérente avec style.css : fond sombre, accents bleus, gros bouton micro.
+ *  Palette MONOCHROMATIQUE graphite, cohérente avec style.css.
  *  Auteur : Abou Camara
  * ========================================================================= */
+
+
+/* -------------------------------------------------------------------------
+ *  VARIABLES — Palette monochromatique
+ * ------------------------------------------------------------------------- */
+:root {
+  --mono-950: #0d0d0d;
+  --mono-900: #161616;
+  --mono-800: #1f1f1f;
+  --mono-700: #2a2a2a;
+  --mono-600: #3a3a3a;
+  --mono-500: #525252;
+  --mono-400: #737373;
+  --mono-300: #a3a3a3;
+  --mono-200: #d4d4d4;
+  --mono-100: #e5e5e5;
+  --mono-50:  #f5f5f5;
+  --accent:   #ffffff;
+}
 
 
 /* ----- Réinitialisation ----- */
@@ -17,8 +36,8 @@
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
                "Helvetica Neue", Arial, sans-serif;
-  background: linear-gradient(160deg, #0f172a 0%, #1e293b 100%);
-  color: #f1f5f9;
+  background: linear-gradient(160deg, var(--mono-950) 0%, var(--mono-800) 100%);
+  color: var(--mono-50);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -35,9 +54,11 @@ header {
 
 h1 {
   font-size: 1.8rem;
-  letter-spacing: 1px;
-  color: #38bdf8;
+  letter-spacing: 1.5px;
+  color: var(--accent);
   margin-bottom: 8px;
+  font-weight: 300;
+  text-transform: uppercase;
 }
 
 .status {
@@ -45,44 +66,45 @@ h1 {
   align-items: center;
   gap: 8px;
   font-size: 0.9rem;
-  color: #94a3b8;
+  color: var(--mono-300);
 }
 
 .status .dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #ef4444;
-  box-shadow: 0 0 8px #ef4444;
+  background: var(--mono-500);
+  box-shadow: 0 0 8px var(--mono-500);
   transition: background 0.3s, box-shadow 0.3s;
 }
 
 .status.listening .dot {
-  background: #f59e0b;
-  box-shadow: 0 0 8px #f59e0b;
+  background: var(--mono-200);
+  box-shadow: 0 0 10px var(--mono-200);
 }
 
 .status.online .dot {
-  background: #22c55e;
-  box-shadow: 0 0 8px #22c55e;
+  background: var(--mono-100);
+  box-shadow: 0 0 10px var(--mono-100);
 }
 
 
 /* ----- Carte principale ----- */
 .card {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(56, 189, 248, 0.25);
+  background: rgba(31, 31, 31, 0.7);
+  border: 1px solid var(--mono-600);
   border-radius: 16px;
   padding: 24px;
   width: 100%;
   max-width: 480px;
   backdrop-filter: blur(8px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
 }
 
 
 /* =========================================================================
  *  BOUTON MICRO (cercle pulsant)
+ *  En mode mono : gris foncé au repos, blanc cassé en écoute, halo blanc.
  * ========================================================================= */
 .mic-zone {
   display: flex;
@@ -95,35 +117,37 @@ h1 {
   position: relative;
   width: 130px;
   height: 130px;
-  border: none;
+  border: 1px solid var(--mono-500);
   border-radius: 50%;
   cursor: pointer;
-  background: linear-gradient(180deg, #1e40af 0%, #1e3a8a 100%);
-  color: white;
+  background: linear-gradient(180deg, var(--mono-600) 0%, var(--mono-700) 100%);
+  color: var(--mono-50);
   font-size: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 25px rgba(56, 189, 248, 0.35);
+  box-shadow: 0 0 25px rgba(229, 229, 229, 0.15);
   transition: transform 0.15s, box-shadow 0.3s, background 0.3s;
   -webkit-tap-highlight-color: transparent;
 }
 
-.mic:hover  { transform: scale(1.05); }
+.mic:hover  { transform: scale(1.05); filter: brightness(1.2); }
 .mic:active { transform: scale(0.95); }
 
 .mic-pulse {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 3px solid #f59e0b;
+  border: 3px solid var(--mono-100);
   opacity: 0;
   pointer-events: none;
 }
 
 .mic.listening {
-  background: linear-gradient(180deg, #dc2626 0%, #991b1b 100%);
-  box-shadow: 0 0 40px rgba(245, 158, 11, 0.6);
+  background: linear-gradient(180deg, var(--mono-100) 0%, var(--mono-300) 100%);
+  color: var(--mono-900);
+  border-color: var(--mono-50);
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.35);
 }
 
 .mic.listening .mic-pulse {
@@ -131,17 +155,21 @@ h1 {
 }
 
 @keyframes pulse {
-  0%   { transform: scale(1);   opacity: 0.8; }
+  0%   { transform: scale(1);   opacity: 0.7; }
   100% { transform: scale(1.5); opacity: 0;   }
 }
 
-.mic-icon { line-height: 1; }
+.mic-icon {
+  line-height: 1;
+  filter: grayscale(1);            /* emoji micro en niveaux de gris */
+}
 
 .hint {
   margin-top: 14px;
   font-size: 0.9rem;
-  color: #94a3b8;
+  color: var(--mono-300);
   text-align: center;
+  letter-spacing: 0.3px;
 }
 
 
@@ -159,31 +187,31 @@ h1 {
 .history label,
 .settings label {
   display: block;
-  font-size: 0.85rem;
-  color: #94a3b8;
+  font-size: 0.8rem;
+  color: var(--mono-400);
   margin-bottom: 6px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
 }
 
 .transcript-box,
 .action-box {
-  background: #020617;
-  border: 1px solid rgba(56, 189, 248, 0.2);
+  background: var(--mono-950);
+  border: 1px solid var(--mono-600);
   border-radius: 10px;
   padding: 14px 16px;
   min-height: 48px;
   font-size: 1rem;
-  color: #f1f5f9;
+  color: var(--mono-50);
 }
 
 .transcript-box.partial {
-  color: #94a3b8;
+  color: var(--mono-400);
   font-style: italic;
 }
 
 .action-box {
-  color: #38bdf8;
+  color: var(--mono-100);
   font-family: "Consolas", "Courier New", monospace;
   font-size: 0.95rem;
 }
@@ -198,13 +226,13 @@ h1 {
   flex-direction: column;
   gap: 10px;
   font-size: 0.9rem;
-  color: #cbd5e1;
+  color: var(--mono-200);
 }
 
 .settings label {
   text-transform: none;
   font-size: 0.9rem;
-  color: #cbd5e1;
+  color: var(--mono-200);
   letter-spacing: 0;
   margin-bottom: 0;
 }
@@ -214,9 +242,9 @@ h1 {
   margin-top: 4px;
   width: 100%;
   max-width: 260px;
-  background: #0f172a;
-  border: 1px solid #334155;
-  color: #e2e8f0;
+  background: var(--mono-900);
+  border: 1px solid var(--mono-500);
+  color: var(--mono-100);
   border-radius: 6px;
   padding: 6px 10px;
   font-size: 0.9rem;
@@ -228,28 +256,28 @@ h1 {
   gap: 8px;
 }
 
-.settings .check input { accent-color: #38bdf8; }
+.settings .check input { accent-color: var(--mono-100); }
 
 
 /* =========================================================================
  *  HISTORIQUE
  * ========================================================================= */
 .history-box {
-  background: #020617;
-  border: 1px solid rgba(56, 189, 248, 0.2);
+  background: var(--mono-950);
+  border: 1px solid var(--mono-600);
   border-radius: 10px;
   padding: 12px;
   height: 130px;
   overflow-y: auto;
   font-family: "Consolas", "Courier New", monospace;
   font-size: 0.85rem;
-  color: #94a3b8;
+  color: var(--mono-300);
 }
 
 .history-box .line      { margin-bottom: 4px; }
-.history-box .line.ok   { color: #4ade80; }
-.history-box .line.err  { color: #f87171; }
-.history-box .line.user { color: #38bdf8; }
+.history-box .line.ok   { color: var(--mono-50);  font-weight: 500; }
+.history-box .line.err  { color: var(--mono-500); font-style: italic; }
+.history-box .line.user { color: var(--mono-200); }
 
 
 /* =========================================================================
@@ -260,27 +288,27 @@ h1 {
 }
 
 .examples-title {
-  font-size: 0.85rem;
-  color: #94a3b8;
+  font-size: 0.8rem;
+  color: var(--mono-400);
   margin-bottom: 10px;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
 }
 
 .chip {
   display: inline-block;
   margin: 4px 6px 4px 0;
-  background: rgba(56, 189, 248, 0.1);
-  color: #38bdf8;
-  border: 1px solid rgba(56, 189, 248, 0.3);
+  background: var(--mono-800);
+  color: var(--mono-100);
+  border: 1px solid var(--mono-500);
   border-radius: 999px;
   padding: 6px 12px;
   font-size: 0.85rem;
   cursor: pointer;
-  transition: background 0.2s, transform 0.1s;
+  transition: background 0.2s, transform 0.1s, border-color 0.2s;
 }
 
-.chip:hover  { background: rgba(56, 189, 248, 0.2); }
+.chip:hover  { background: var(--mono-700); border-color: var(--mono-300); }
 .chip:active { transform: scale(0.96); }
 
 
@@ -295,28 +323,34 @@ h1 {
   margin-top: 22px;
   padding: 12px 20px;
   border-radius: 12px;
-  background: linear-gradient(180deg, #0ea5e9 0%, #0369a1 100%);
-  color: #f8fafc;
+  background: linear-gradient(180deg, var(--mono-500) 0%, var(--mono-700) 100%);
+  color: var(--mono-50);
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 1rem;
   letter-spacing: 0.3px;
-  box-shadow: 0 4px 0 #0c4a6e, 0 4px 15px rgba(14, 165, 233, 0.25);
+  border: 1px solid var(--mono-400);
+  box-shadow: 0 4px 0 var(--mono-900);
   transition: transform 0.1s ease, filter 0.2s ease, box-shadow 0.2s ease;
 }
 
-.nav-link:hover  { filter: brightness(1.1); }
+.nav-link:hover  { filter: brightness(1.2); }
 .nav-link:active {
   transform: translateY(2px);
-  box-shadow: 0 2px 0 #0c4a6e, 0 2px 8px rgba(14, 165, 233, 0.25);
+  box-shadow: 0 2px 0 var(--mono-900);
 }
 
-.nav-icon { font-size: 1.2rem; line-height: 1; }
+.nav-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+  filter: grayscale(1);
+}
 
 
 /* ----- Pied de page ----- */
 footer {
   margin-top: 30px;
   font-size: 0.8rem;
-  color: #64748b;
+  color: var(--mono-500);
+  letter-spacing: 0.5px;
 }

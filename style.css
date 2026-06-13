@@ -1,14 +1,32 @@
 /* =========================================================================
  *  FEUILLE DE STYLE — Page de contrôle du Robot Mobile Intelligent
- *  Conception mobile-first, fond sombre type tableau de bord.
+ *  Palette MONOCHROMATIQUE graphite (nuances de gris uniquement).
  *  Auteur : Abou Camara
  * ========================================================================= */
 
 
 /* -------------------------------------------------------------------------
+ *  VARIABLES — Palette monochromatique
+ *  Une seule teinte (gris neutre), déclinée du plus sombre au plus clair.
+ * ------------------------------------------------------------------------- */
+:root {
+  --mono-950: #0d0d0d;   /* fond le plus profond */
+  --mono-900: #161616;
+  --mono-800: #1f1f1f;
+  --mono-700: #2a2a2a;
+  --mono-600: #3a3a3a;
+  --mono-500: #525252;
+  --mono-400: #737373;
+  --mono-300: #a3a3a3;
+  --mono-200: #d4d4d4;
+  --mono-100: #e5e5e5;
+  --mono-50:  #f5f5f5;   /* texte principal */
+  --accent:   #ffffff;   /* unique accent : blanc pur */
+}
+
+
+/* -------------------------------------------------------------------------
  *  REINITIALISATION
- *  On annule les marges par défaut du navigateur et on inclut le padding
- *  dans la largeur des éléments (box-sizing: border-box).
  * ------------------------------------------------------------------------- */
 * {
   box-sizing: border-box;
@@ -19,13 +37,13 @@
 
 /* -------------------------------------------------------------------------
  *  CORPS DE LA PAGE
- *  Dégradé sombre, contenu centré horizontalement, plein écran en hauteur.
+ *  Dégradé monochrome subtil noir vers gris très sombre.
  * ------------------------------------------------------------------------- */
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
                "Helvetica Neue", Arial, sans-serif;
-  background: linear-gradient(160deg, #0f172a 0%, #1e293b 100%);
-  color: #f1f5f9;
+  background: linear-gradient(160deg, var(--mono-950) 0%, var(--mono-800) 100%);
+  color: var(--mono-50);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -44,9 +62,11 @@ header {
 
 h1 {
   font-size: 1.8rem;
-  letter-spacing: 1px;
-  color: #38bdf8;          /* bleu clair pour le titre */
+  letter-spacing: 1.5px;
+  color: var(--accent);
   margin-bottom: 8px;
+  font-weight: 300;             /* léger : style minimaliste */
+  text-transform: uppercase;
 }
 
 /* Indicateur "En ligne / Hors ligne" sous le titre */
@@ -55,44 +75,42 @@ h1 {
   align-items: center;
   gap: 8px;
   font-size: 0.9rem;
-  color: #94a3b8;
+  color: var(--mono-300);
 }
 
 .status .dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: #ef4444;     /* rouge par défaut = hors ligne */
-  box-shadow: 0 0 8px #ef4444;
+  background: var(--mono-500);     /* gris moyen par défaut = hors ligne */
+  box-shadow: 0 0 8px var(--mono-500);
   transition: background 0.3s, box-shadow 0.3s;
 }
 
 .status.online .dot {
-  background: #22c55e;     /* vert quand l'ESP32 répond */
-  box-shadow: 0 0 8px #22c55e;
+  background: var(--mono-100);     /* clair quand l'ESP32 répond */
+  box-shadow: 0 0 10px var(--mono-100);
 }
 
 
 /* -------------------------------------------------------------------------
  *  CARTE PRINCIPALE
- *  Conteneur arrondi, légèrement transparent, avec bordure bleutée.
+ *  Conteneur arrondi, gris foncé, bordure gris moyen.
  * ------------------------------------------------------------------------- */
 .card {
-  background: rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(56, 189, 248, 0.25);
+  background: rgba(31, 31, 31, 0.7);
+  border: 1px solid var(--mono-600);
   border-radius: 16px;
   padding: 24px;
   width: 100%;
   max-width: 420px;
   backdrop-filter: blur(8px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
 }
 
 
 /* -------------------------------------------------------------------------
  *  PAVE DIRECTIONNEL (pad en croix 3 x 3)
- *  Les boutons sont placés grâce à grid-column / grid-row pour former
- *  une croix : haut, gauche, centre, droite, bas.
  * ------------------------------------------------------------------------- */
 .pad {
   display: grid;
@@ -106,52 +124,52 @@ h1 {
 
 /* -------------------------------------------------------------------------
  *  BOUTONS DE COMMANDE
- *  Aspect "bouton physique" avec ombre du bas qui simule l'épaisseur.
- *  L'ombre disparait au clic pour donner l'effet d'enfoncement.
+ *  Effet "bouton physique" en nuances de gris.
  * ------------------------------------------------------------------------- */
 .btn {
-  border: none;
+  border: 1px solid var(--mono-500);
   border-radius: 14px;
   font-size: 1.5rem;
-  font-weight: 600;
-  color: #f8fafc;
-  background: linear-gradient(180deg, #1e40af 0%, #1e3a8a 100%);
+  font-weight: 500;
+  color: var(--mono-50);
+  background: linear-gradient(180deg, var(--mono-600) 0%, var(--mono-700) 100%);
   cursor: pointer;
   transition: transform 0.1s ease,
               filter 0.2s ease,
               box-shadow 0.2s ease;
-  box-shadow: 0 4px 0 #0c1c5c;
+  box-shadow: 0 4px 0 var(--mono-900);
   user-select: none;
-  -webkit-tap-highlight-color: transparent;   /* pas de flash bleu sur mobile */
+  -webkit-tap-highlight-color: transparent;
 }
 
-.btn:hover  { filter: brightness(1.15); }
+.btn:hover  { filter: brightness(1.25); }
 
 .btn:active {
   transform: translateY(2px);
-  box-shadow: 0 2px 0 #0c1c5c;
+  box-shadow: 0 2px 0 var(--mono-900);
 }
 
-/* Bouton STOP en rouge pour bien le différencier */
+/* Bouton STOP : nuance plus claire pour le différencier sans casser la mono */
 .btn.stop {
-  background: linear-gradient(180deg, #dc2626 0%, #991b1b 100%);
-  box-shadow: 0 4px 0 #5b0e0e;
+  background: linear-gradient(180deg, var(--mono-200) 0%, var(--mono-300) 100%);
+  color: var(--mono-900);
+  border-color: var(--mono-100);
+  box-shadow: 0 4px 0 var(--mono-500);
 }
 .btn.stop:active {
-  box-shadow: 0 2px 0 #5b0e0e;
+  box-shadow: 0 2px 0 var(--mono-500);
 }
 
 /* Position de chaque bouton dans la grille */
-.btn.fwd   { grid-column: 2; grid-row: 1; }  /* haut */
-.btn.left  { grid-column: 1; grid-row: 2; }  /* gauche */
-.btn.stop  { grid-column: 2; grid-row: 2; }  /* centre */
-.btn.right { grid-column: 3; grid-row: 2; }  /* droite */
-.btn.bwd   { grid-column: 2; grid-row: 3; }  /* bas */
+.btn.fwd   { grid-column: 2; grid-row: 1; }
+.btn.left  { grid-column: 1; grid-row: 2; }
+.btn.stop  { grid-column: 2; grid-row: 2; }
+.btn.right { grid-column: 3; grid-row: 2; }
+.btn.bwd   { grid-column: 2; grid-row: 3; }
 
 
 /* -------------------------------------------------------------------------
  *  CHAMPS DE REGLAGE (curseurs)
- *  Une étiquette à gauche, la valeur à droite, le curseur en dessous.
  * ------------------------------------------------------------------------- */
 .field {
   margin-top: 18px;
@@ -162,17 +180,17 @@ h1 {
   justify-content: space-between;
   font-size: 0.95rem;
   margin-bottom: 8px;
-  color: #cbd5e1;
+  color: var(--mono-200);
 }
 
 .field label span {
-  color: #38bdf8;
+  color: var(--accent);
   font-weight: 600;
 }
 
 input[type="range"] {
   width: 100%;
-  accent-color: #38bdf8;
+  accent-color: var(--mono-100);
 }
 
 
@@ -182,14 +200,14 @@ input[type="range"] {
 .settings {
   margin-top: 20px;
   font-size: 0.85rem;
-  color: #94a3b8;
+  color: var(--mono-300);
   text-align: center;
 }
 
 .settings input {
-  background: #0f172a;
-  border: 1px solid #334155;
-  color: #e2e8f0;
+  background: var(--mono-900);
+  border: 1px solid var(--mono-500);
+  color: var(--mono-100);
   border-radius: 6px;
   padding: 6px 10px;
   width: 160px;
@@ -200,31 +218,28 @@ input[type="range"] {
 
 /* -------------------------------------------------------------------------
  *  CONSOLE DES MESSAGES
- *  Zone scrollable type "terminal" affichant les commandes envoyées
- *  et les réponses reçues du robot.
+ *  Type "terminal" noir, texte gris clair, accents en différentes nuances.
  * ------------------------------------------------------------------------- */
 .log {
   margin-top: 22px;
-  background: #020617;
-  border: 1px solid rgba(56, 189, 248, 0.2);
+  background: var(--mono-950);
+  border: 1px solid var(--mono-600);
   border-radius: 10px;
   padding: 12px;
   font-family: "Consolas", "Courier New", monospace;
   font-size: 0.85rem;
-  color: #94a3b8;
+  color: var(--mono-300);
   height: 120px;
   overflow-y: auto;
 }
 
 .log .line { margin-bottom: 4px; }
-.log .ok   { color: #4ade80; }   /* vert pour les réponses OK */
-.log .err  { color: #f87171; }   /* rouge pour les erreurs */
+.log .ok   { color: var(--mono-100); font-weight: 500; }   /* clair pour OK */
+.log .err  { color: var(--mono-400); font-style: italic; } /* atténué pour erreurs */
 
 
 /* -------------------------------------------------------------------------
  *  BOUTON DE NAVIGATION VERS UNE AUTRE PAGE
- *  Utilisé pour aller de la page de pilotage vers la page de commande
- *  vocale (ou réciproquement).
  * ------------------------------------------------------------------------- */
 .nav-link {
   display: flex;
@@ -234,25 +249,27 @@ input[type="range"] {
   margin-top: 22px;
   padding: 12px 20px;
   border-radius: 12px;
-  background: linear-gradient(180deg, #0ea5e9 0%, #0369a1 100%);
-  color: #f8fafc;
+  background: linear-gradient(180deg, var(--mono-500) 0%, var(--mono-700) 100%);
+  color: var(--mono-50);
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 1rem;
   letter-spacing: 0.3px;
-  box-shadow: 0 4px 0 #0c4a6e, 0 4px 15px rgba(14, 165, 233, 0.25);
+  border: 1px solid var(--mono-400);
+  box-shadow: 0 4px 0 var(--mono-900);
   transition: transform 0.1s ease, filter 0.2s ease, box-shadow 0.2s ease;
 }
 
-.nav-link:hover  { filter: brightness(1.1); }
+.nav-link:hover  { filter: brightness(1.2); }
 .nav-link:active {
   transform: translateY(2px);
-  box-shadow: 0 2px 0 #0c4a6e, 0 2px 8px rgba(14, 165, 233, 0.25);
+  box-shadow: 0 2px 0 var(--mono-900);
 }
 
 .nav-icon {
   font-size: 1.2rem;
   line-height: 1;
+  filter: grayscale(1);            /* enlève toute couleur des emojis */
 }
 
 
@@ -262,5 +279,6 @@ input[type="range"] {
 footer {
   margin-top: 30px;
   font-size: 0.8rem;
-  color: #64748b;
+  color: var(--mono-500);
+  letter-spacing: 0.5px;
 }
